@@ -1032,13 +1032,13 @@ function generateDRPP() {
   const alamat = document.getElementById('alamat').value;
   const noDipa = document.getElementById('no_dipa').value;
   const tglDipa = fmtDate(document.getElementById('tgl_dipa').value);
-  const kodeKeg = document.getElementById('kode_kegiatan').value;
-  const kodeOut = document.getElementById('kode_output').value;
-  const kodeOutLabel = document.getElementById('kode_output_label').value || 'EBA';
+  const kodeKeg = document.getElementById('kode_kegiatan').value || 'BELUM DIISI';
+  const kodeOut = document.getElementById('kode_output').value || 'BELUM DIISI';
+  const kodeOutLabel = document.getElementById('kode_output_label').value || 'BELUM DIISI';
   const tahun = document.getElementById('tahun').value;
   const bulan = document.getElementById('bulan').value;
   const ppkNama = document.getElementById('ppk_nama').value || '_________________________';
-  const ppkNip  = document.getElementById('ppk_nip').value || '';
+  const ppkNip  = document.getElementById('ppk_nip').value || 'NIP. _________________________';
 
   // Jenis SPP checkboxes
   const sppGup      = document.getElementById('spp_gup').checked;

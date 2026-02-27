@@ -515,47 +515,47 @@
       <div class="grid-2">
         <div class="field">
           <label>Kementerian/Lembaga</label>
-          <input type="text" id="kementerian" value="Kementerian Agama" />
+          <input type="text" id="kementerian" value="Kementerian Agama" disabled />
         </div>
         <div class="field">
           <label>Unit Organisasi</label>
-          <input type="text" id="unit_org" value="Ditjen Pendidikan Islam" />
+          <input type="text" id="unit_org" value="Ditjen Pendidikan Islam" disabled/>
         </div>
         <div class="field">
           <label>Kantor/Satker</label>
-          <input type="text" id="satker" value="UIN Palu" />
+          <input type="text" id="satker" value="UIN Datokarama Palu" disabled/>
         </div>
         <div class="field">
           <label>Lokasi</label>
-          <input type="text" id="lokasi" value="Sulawesi Tengah" />
+          <input type="text" id="lokasi" value="Sulawesi Tengah" disabled />
         </div>
         <div class="field col-span-2">
           <label>Alamat</label>
-          <input type="text" id="alamat" value="Jl. Diponegoro No. 23 Palu" />
+          <input type="text" id="alamat" value="Jl. Diponegoro No. 23 Palu" disabled/>
         </div>
 
         <!-- DIPA -->
         <div class="field">
           <label>Nomor SP DIPA</label>
-          <input type="text" id="no_dipa" value="SP DIPA-025.04.2.307267/2026" />
+          <input type="text" id="no_dipa" value="SP DIPA-025.04.2.307267/2026" disabled/>
         </div>
         <div class="field">
           <label>Tanggal DIPA</label>
-          <input type="date" id="tgl_dipa" value="2025-12-01" />
+          <input type="date" id="tgl_dipa" value="2025-12-01" disabled />
         </div>
 
         <!-- KODE -->
         <div class="field">
           <label>Kode Kegiatan</label>
-          <input type="text" id="kode_kegiatan" value="2135" />
+          <input type="text" id="kode_kegiatan" placeholder="contoh. 2135" />
         </div>
         <div class="field">
           <label>Kode Output (Label)</label>
-          <input type="text" id="kode_output_label" value="EBA" placeholder="mis. EBA" style="max-width:120px;" />
+          <input type="text" id="kode_output_label" placeholder="Contoh. EBA" style="max-width:120px;" />
         </div>
         <div class="field">
           <label>Kode Output / MAK (Lengkap)</label>
-          <input type="text" id="kode_output" value="2135.EBA.994.002.BA.524111" placeholder="mis. 2135.EBA.994.002.BA.524111" />
+          <input type="text" id="kode_output" placeholder="Contoh. 2135.EBA.994.002.BA.524111" />
         </div>
         <div class="field">
           <label>Tahun Anggaran</label>
@@ -592,7 +592,7 @@
               <span>2 GUP Nihil</span>
             </label>
             <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:0.92rem;font-weight:500;color:var(--text);cursor:pointer;">
-              <input type="checkbox" id="spp_ls" checked style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);padding:0;border:none;background:none;" />
+              <input type="checkbox" id="spp_ls" style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);padding:0;border:none;background:none;" />
               <span>3 LS</span>
             </label>
           </div>
@@ -601,11 +601,11 @@
         <!-- PPK -->
         <div class="field">
           <label>Nama Pejabat Pembuat Komitmen (PPK)</label>
-          <input type="text" id="ppk_nama" value="Ivan Setiadi, S.Sos., M.M" placeholder="Nama lengkap PPK" />
+          <input type="text" id="ppk_nama" value="Ivan Setiadi, S.Sos., M.M" placeholder="Nama lengkap PPK" disabled/>
         </div>
         <div class="field">
           <label>NIP PPK</label>
-          <input type="text" id="ppk_nip" value="198509092011011009" placeholder="NIP PPK" />
+          <input type="text" id="ppk_nip" value="198509092011011009" placeholder="NIP PPK" disabled/>
         </div>
       </div>
     </div>
@@ -764,7 +764,7 @@ function renderPeserta(p, no) {
         </div>
         <div class="field">
           <label>Nomor SPD</label>
-          <input type="text" id="nospd-${uid}" placeholder="421/Un.24/KP.01.1/01/2026" value="${p.nospd||''}" oninput="syncField(${uid},'nospd',this.value)" />
+          <input type="text" id="nospd-${uid}" placeholder="Misal 421/Un.24/KP.01.1/01/2026" value="${p.nospd||''}" oninput="syncField(${uid},'nospd',this.value)" />
         </div>
         <div class="field">
           <label>Tanggal SPD</label>
@@ -775,7 +775,7 @@ function renderPeserta(p, no) {
           <input type="text" id="akun-${uid}" value="${p.akun||'524111'}" maxlength="6" oninput="syncField(${uid},'akun',this.value)" />
         </div>
         <div class="field">
-          <label>NPWP</label>
+          <label>NPWP (Opsional)</label>
           <input type="text" id="npwp-${uid}" placeholder="00.000.000.0-000.000" value="${p.npwp||''}" oninput="syncField(${uid},'npwp',this.value)" />
         </div>
       </div>

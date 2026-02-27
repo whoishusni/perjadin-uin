@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplikasi Perjadin — IAIN Palu</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1f3d;
+    --gold: #c9a84c;
+    --gold-light: #f0d58a;
+    --cream: #faf8f3;
+    --warm-gray: #e8e2d9;
+    --text: #1a1a2e;
+    --muted: #6b6b7b;
+    --danger: #c0392b;
+    --success: #1a6b3c;
+    --card-bg: #ffffff;
+    --border: #d4cfc8;
+    --shadow: 0 4px 24px rgba(15,31,61,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-icon {
+    width: 44px; height: 44px;
+    background: var(--gold);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .header-title h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: #fff;
+    letter-spacing: 0.01em;
+  }
+  .header-title p {
+    font-size: 0.78rem;
+    color: var(--gold-light);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: #fff;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* MAIN */
+  .main { max-width: 1200px; margin: 0 auto; padding: 32px; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--warm-gray);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+  .tab {
+    padding: 10px 24px;
+    border-radius: 9px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: var(--navy);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(15,31,61,0.2);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--navy);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--warm-gray);
+  }
+  .card-title span {
+    width: 28px; height: 28px;
+    background: var(--navy);
+    border-radius: 7px;
+    color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .col-span-2 { grid-column: span 2; }
+  .col-span-3 { grid-column: span 3; }
+
+  /* FORM */
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  input, select, textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--text);
+    transition: all 0.2s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--navy);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(15,31,61,0.08);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  /* PESERTA TABLE */
+  .peserta-list { margin-top: 8px; }
+  .peserta-row {
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  .peserta-row:hover { border-color: #b0b8cc; box-shadow: 0 4px 16px rgba(15,31,61,0.07); }
+  .peserta-row.removing {
+    animation: slideOut 0.3s ease forwards;
+  }
+  .peserta-row.adding {
+    animation: slideIn 0.3s ease forwards;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-12px); max-height: 0; }
+    to { opacity: 1; transform: translateY(0); max-height: 2000px; }
+  }
+  @keyframes slideOut {
+    from { opacity: 1; transform: translateX(0); max-height: 2000px; }
+    to { opacity: 0; transform: translateX(30px); max-height: 0; margin-bottom: 0; }
+  }
+
+  /* PESERTA HEADER (always visible, click to collapse) */
+  .peserta-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    background: #fff;
+    border-bottom: 1.5px solid var(--border);
+    transition: background 0.15s;
+  }
+  .peserta-header:hover { background: #f5f3ee; }
+  .peserta-num {
+    width: 32px; height: 32px;
+    background: var(--navy);
+    color: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .peserta-name-display {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--navy);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .peserta-subtotal-display {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--success);
+    background: #e8f5ee;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .peserta-toggle {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    transform: rotate(0deg);
+  }
+  .peserta-row.collapsed .peserta-toggle { transform: rotate(-90deg); }
+  .btn-remove {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid #e0d0d0;
+    background: #fff;
+    color: var(--danger);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    line-height: 1;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .btn-remove:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+
+  /* PESERTA BODY (collapsible) */
+  .peserta-body {
+    padding: 20px 20px 18px;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s;
+    max-height: 2000px;
+    opacity: 1;
+  }
+  .peserta-row.collapsed .peserta-body {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Peserta count badge */
+  .peserta-count-badge {
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 8px;
+  }
+
+  /* TRANSPORT DETAILS */
+  .transport-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* SUMMARY */
+  .summary-card {
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 24px 28px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .summary-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .summary-item label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .summary-item .amount {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--gold-light);
+  }
+  .summary-total {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    margin-top: 16px;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .summary-total label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .summary-total .total-amount {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--gold);
+  }
+
+  /* ADD BUTTON */
+  .btn-add {
+    width: 100%;
+    padding: 14px;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .btn-add:hover {
+    border-color: var(--navy);
+    color: var(--navy);
+    background: rgba(15,31,61,0.03);
+  }
+
+  /* SEPARATOR LABEL */
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    background: var(--navy);
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin: 12px 0 10px;
+  }
+
+  /* ==================== PRINT STYLES ==================== */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: #fff; font-family: Arial, sans-serif; font-size: 10pt; }
+    header, .tabs, .app-section, .no-print { display: none !important; }
+    .print-section { display: block !important; }
+    @page { margin: 1.5cm 1.5cm; size: A4; }
+  }
+
+  /* PRINT PREVIEW */
+  .print-section { display: none; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(15,31,61,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+  }
+  .modal h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--navy);
+  }
+  .modal p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--navy);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    border-left: 4px solid var(--gold);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.35s;
+    z-index: 9999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-icon">📋</div>
+    <div class="header-title">
+      <h1>Aplikasi Perjalanan Dinas</h1>
+      <p>DRPP — Daftar Rincian Permintaan Pembayaran</p>
+    </div>
+    <div class="header-actions no-print">
+      <button class="btn btn-outline" onclick="resetForm()">↺ Reset</button>
+      <button class="btn btn-primary" onclick="cetakDRPP()">🖨️ Cetak DRPP</button>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+  <!-- TABS -->
+  <div class="tabs no-print">
+    <button class="tab active" onclick="switchTab('input', this)">📝 Input Data</button>
+    <button class="tab" onclick="switchTab('preview', this)">👁️ Preview DRPP</button>
+  </div>
+
+  <!-- ====== TAB INPUT ====== -->
+  <div id="tab-input" class="app-section">
+
+    <!-- HEADER INFO -->
+    <div class="card">
+      <div class="card-title"><span>1</span> Informasi Dokumen</div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Kementerian/Lembaga</label>
+          <input type="text" id="kementerian" value="Kementerian Agama" />
+        </div>
+        <div class="field">
+          <label>Unit Organisasi</label>
+          <input type="text" id="unit_org" value="Ditjen Pendidikan Islam" />
+        </div>
+        <div class="field">
+          <label>Kantor/Satker</label>
+          <input type="text" id="satker" value="IAIN Palu" />
+        </div>
+        <div class="field">
+          <label>Lokasi</label>
+          <input type="text" id="lokasi" value="Sulawesi Tengah" />
+        </div>
+        <div class="field col-span-2">
+          <label>Alamat</label>
+          <input type="text" id="alamat" value="Jl. Diponegoro No. 23 Palu" />
+        </div>
+
+        <!-- DIPA -->
+        <div class="field">
+          <label>Nomor SP DIPA</label>
+          <input type="text" id="no_dipa" value="SP DIPA-025.04.2.307267/2026" />
+        </div>
+        <div class="field">
+          <label>Tanggal DIPA</label>
+          <input type="date" id="tgl_dipa" value="2025-12-01" />
+        </div>
+
+        <!-- KODE -->
+        <div class="field">
+          <label>Kode Kegiatan</label>
+          <input type="text" id="kode_kegiatan" value="2135" />
+        </div>
+        <div class="field">
+          <label>Kode Output (Label)</label>
+          <input type="text" id="kode_output_label" value="EBA" placeholder="mis. EBA" style="max-width:120px;" />
+        </div>
+        <div class="field">
+          <label>Kode Output / MAK (Lengkap)</label>
+          <input type="text" id="kode_output" value="2135.EBA.994.002.BA.524111" placeholder="mis. 2135.EBA.994.002.BA.524111" />
+        </div>
+        <div class="field">
+          <label>Tahun Anggaran</label>
+          <input type="number" id="tahun" value="2026" />
+        </div>
+        <div class="field">
+          <label>Bulan</label>
+          <select id="bulan">
+            <option value="Januari">Januari</option>
+            <option value="Februari" selected>Februari</option>
+            <option value="Maret">Maret</option>
+            <option value="April">April</option>
+            <option value="Mei">Mei</option>
+            <option value="Juni">Juni</option>
+            <option value="Juli">Juli</option>
+            <option value="Agustus">Agustus</option>
+            <option value="September">September</option>
+            <option value="Oktober">Oktober</option>
+            <option value="November">November</option>
+            <option value="Desember">Desember</option>
+          </select>
+        </div>
+
+        <!-- JENIS SPP -->
+        <div class="field col-span-2">
+          <label>Jenis SPP (dapat dipilih lebih dari satu)</label>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;padding:12px 16px;background:var(--cream);border:1.5px solid var(--border);border-radius:8px;margin-top:2px;">
+            <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:0.92rem;font-weight:500;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="spp_gup" style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);padding:0;border:none;background:none;" />
+              <span>1 GUP</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:0.92rem;font-weight:500;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="spp_gup_nihil" style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);padding:0;border:none;background:none;" />
+              <span>2 GUP Nihil</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:0.92rem;font-weight:500;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="spp_ls" checked style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);padding:0;border:none;background:none;" />
+              <span>3 LS</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- PPK -->
+        <div class="field">
+          <label>Nama Pejabat Pembuat Komitmen (PPK)</label>
+          <input type="text" id="ppk_nama" value="Ivan Setiadi, S.Sos., M.M" placeholder="Nama lengkap PPK" />
+        </div>
+        <div class="field">
+          <label>NIP PPK</label>
+          <input type="text" id="ppk_nip" value="198509092011011009" placeholder="NIP PPK" />
+        </div>
+      </div>
+    </div>
+
+    <!-- PESERTA -->
+    <div class="card">
+      <div class="card-title">
+        <span>2</span> Daftar Peserta &amp; Rincian Biaya
+        <span class="peserta-count-badge" id="peserta-count">0</span>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);" onclick="collapseAll()">↑ Sembunyikan Semua</button>
+          <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);" onclick="expandAll()">↓ Tampilkan Semua</button>
+        </div>
+      </div>
+      <div class="peserta-list" id="peserta-list"></div>
+      <button class="btn-add" onclick="tambahPeserta()">＋ Tambah Peserta</button>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary-card no-print" id="summary-card">
+      <div class="summary-title">📊 Rekapitulasi Total</div>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <label>Uang Harian</label>
+          <div class="amount" id="sum-harian">Rp 0</div>
+        </div>
+        <div class="summary-item">
+          <label>Hotel / Akomodasi</label>
+          <div class="amount" id="sum-hotel">Rp 0</div>
+        </div>
+        <div class="summary-item">
+          <label>Transport</label>
+          <div class="amount" id="sum-transport">Rp 0</div>
+        </div>
+        <div class="summary-item">
+          <label>Representatif</label>
+          <div class="amount" id="sum-representatif">Rp 0</div>
+        </div>
+      </div>
+      <div class="summary-total">
+        <label>TOTAL DRPP</label>
+        <div class="total-amount" id="sum-total">Rp 0</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====== TAB PREVIEW ====== -->
+  <div id="tab-preview" class="app-section" style="display:none;">
+    <div class="card">
+      <div class="card-title"><span>👁</span> Preview Cetak DRPP</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">Ini adalah tampilan sebelum cetak. Klik tombol "Cetak DRPP" di kanan atas untuk mencetak.</p>
+      <div id="preview-container" style="border:1px solid var(--border);border-radius:8px;overflow:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== PRINT SECTION ====== -->
+<div id="print-area" style="display:none;">
+</div>
+
+<footer style="background:var(--navy);text-align:center;padding:14px;margin-top:8px;">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">© 2026 Husni. All rights reserved.</span>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ==================== STATE ====================
+// Each peserta is an object with a unique uid and all field data
+let pesertaData = [];   // array of { uid, ...fields }
+let uidCounter = 0;
+
+function newUid() { return ++uidCounter; }
+
+// ==================== INIT ====================
+window.onload = function() {
+  tambahPeserta();
+  tambahPeserta();
+};
+
+// ==================== TABS ====================
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.app-section').forEach(s => s.style.display = 'none');
+  if (tab === 'input') {
+    document.getElementById('tab-input').style.display = 'block';
+  } else {
+    document.getElementById('tab-preview').style.display = 'block';
+    renderPreview();
+  }
+}
+
+// ==================== COLLAPSE / EXPAND ====================
+function togglePeserta(uid) {
+  const row = document.getElementById(`peserta-${uid}`);
+  row.classList.toggle('collapsed');
+}
+function collapseAll() {
+  pesertaData.forEach(p => {
+    document.getElementById(`peserta-${p.uid}`)?.classList.add('collapsed');
+  });
+}
+function expandAll() {
+  pesertaData.forEach(p => {
+    document.getElementById(`peserta-${p.uid}`)?.classList.remove('collapsed');
+  });
+}
+
+// ==================== RENDER SINGLE PESERTA ====================
+function renderPeserta(p, no) {
+  const uid = p.uid;
+  const div = document.createElement('div');
+  div.className = 'peserta-row adding';
+  div.id = `peserta-${uid}`;
+
+  div.innerHTML = `
+    <!-- HEADER (clickable to collapse) -->
+    <div class="peserta-header" onclick="togglePeserta(${uid})">
+      <div class="peserta-num" id="num-${uid}">${no}</div>
+      <div class="peserta-name-display" id="namaDisplay-${uid}">${p.nama || `Peserta ${no}`}</div>
+      <div class="peserta-subtotal-display" id="subtotalDisplay-${uid}">Rp 0</div>
+      <div class="peserta-toggle" id="toggle-${uid}" onclick="event.stopPropagation();togglePeserta(${uid})" title="Lipat/Buka">▾</div>
+      <button class="btn-remove" onclick="event.stopPropagation();hapusPeserta(${uid})" title="Hapus peserta ini">×</button>
+    </div>
+
+    <!-- BODY (collapsible) -->
+    <div class="peserta-body" id="body-${uid}">
+      <div class="grid-2">
+        <div class="field">
+          <label>Nama Lengkap &amp; Gelar</label>
+          <input type="text" id="nama-${uid}" placeholder="Dr. Nama, S.Ag., MH" value="${p.nama||''}"
+            oninput="syncField(${uid},'nama',this.value);updateNamaDisplay(${uid})" />
+        </div>
+        <div class="field">
+          <label>Tanggal Bukti</label>
+          <input type="date" id="tgl-${uid}" value="${p.tgl||''}" oninput="syncField(${uid},'tgl',this.value)" />
+        </div>
+        <div class="field col-span-2">
+          <label>Uraian Kegiatan</label>
+          <textarea id="uraian-${uid}" placeholder="Dibayar biaya perjalanan ... dalam rangka mengikuti Kegiatan: ..." oninput="syncField(${uid},'uraian',this.value)">${p.uraian||''}</textarea>
+        </div>
+        <div class="field col-span-2">
+          <label>Lama Perjalanan (hari)</label>
+          <input type="number" id="hari-${uid}" min="1" value="${p.hari||1}" oninput="syncField(${uid},'hari',this.value)" style="max-width:180px;" />
+        </div>
+        <div class="field">
+          <label>Mulai Tanggal</label>
+          <input type="date" id="mulai-${uid}" value="${p.mulai||''}" oninput="syncField(${uid},'mulai',this.value)" />
+        </div>
+        <div class="field">
+          <label>Sampai Tanggal</label>
+          <input type="date" id="sampai-${uid}" value="${p.sampai||''}" oninput="syncField(${uid},'sampai',this.value)" />
+        </div>
+        <div class="field">
+          <label>Nomor SPD</label>
+          <input type="text" id="nospd-${uid}" placeholder="421/Un.24/KP.01.1/01/2026" value="${p.nospd||''}" oninput="syncField(${uid},'nospd',this.value)" />
+        </div>
+        <div class="field">
+          <label>Tanggal SPD</label>
+          <input type="date" id="tglspd-${uid}" value="${p.tglspd||''}" oninput="syncField(${uid},'tglspd',this.value)" />
+        </div>
+        <div class="field">
+          <label>Akun (6 digit)</label>
+          <input type="text" id="akun-${uid}" value="${p.akun||'524111'}" maxlength="6" oninput="syncField(${uid},'akun',this.value)" />
+        </div>
+        <div class="field">
+          <label>NPWP</label>
+          <input type="text" id="npwp-${uid}" placeholder="00.000.000.0-000.000" value="${p.npwp||''}" oninput="syncField(${uid},'npwp',this.value)" />
+        </div>
+      </div>
+
+      <div class="section-label">💰 Rincian Biaya</div>
+      <div class="transport-grid">
+        <div class="field">
+          <label>Uang Harian</label>
+          <input type="number" id="harian-${uid}" value="${p.harian||0}" min="0"
+            oninput="syncField(${uid},'harian',this.value);hitungSubtotal(${uid})" />
+        </div>
+        <div class="field">
+          <label>Hotel/Akomodasi</label>
+          <input type="number" id="hotel-${uid}" value="${p.hotel||0}" min="0"
+            oninput="syncField(${uid},'hotel',this.value);hitungSubtotal(${uid})" />
+        </div>
+        <div class="field">
+          <label>Transport</label>
+          <input type="number" id="transport-${uid}" value="${p.transport||0}" min="0"
+            oninput="syncField(${uid},'transport',this.value);hitungSubtotal(${uid})" />
+        </div>
+        <div class="field" style="grid-column:span 2;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.88rem;font-weight:600;color:var(--muted);">
+            <input type="checkbox" id="rep-toggle-${uid}" ${p.useRepresentatif ? 'checked' : ''}
+              style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);padding:0;border:none;background:none;"
+              onchange="toggleRepresentatif(${uid})" />
+            <span style="text-transform:uppercase;letter-spacing:0.06em;">Representatif (Opsional)</span>
+          </label>
+          <div id="rep-field-${uid}" style="margin-top:8px;display:${p.useRepresentatif ? 'block' : 'none'};">
+            <input type="number" id="representatif-${uid}" value="${p.representatif||0}" min="0"
+              oninput="syncField(${uid},'representatif',this.value);hitungSubtotal(${uid})" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Subtotal bar -->
+      <div style="margin-top:14px;padding:10px 14px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:0.8rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.06em;">Subtotal Peserta ${no}</span>
+        <span id="subtotalBar-${uid}" style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;color:var(--gold);">Rp 0</span>
+      </div>
+
+      <!-- Duplicate / move buttons -->
+      <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;">
+        <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);"
+          onclick="duplikatPeserta(${uid})">⧉ Duplikat</button>
+        <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);"
+          onclick="movePeserta(${uid},-1)">↑ Naik</button>
+        <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);"
+          onclick="movePeserta(${uid},1)">↓ Turun</button>
+      </div>
+    </div>
+  `;
+
+  return div;
+}
+
+// ==================== TAMBAH PESERTA ====================
+function tambahPeserta() {
+  const p = { uid: newUid(), nama:'', tgl:'', uraian:'', hari:1,
+              mulai:'', sampai:'', nospd:'', tglspd:'', akun:'524111', npwp:'',
+              harian:0, hotel:0, transport:0, representatif:0, useRepresentatif:false };
+  pesertaData.push(p);
+  const no = pesertaData.length;
+  const div = renderPeserta(p, no);
+  document.getElementById('peserta-list').appendChild(div);
+  // Remove animation class after done
+  setTimeout(() => div.classList.remove('adding'), 400);
+  updateCountBadge();
+  updateSummary();
+  // Scroll into view
+  setTimeout(() => div.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+  showToast(`Peserta ${no} berhasil ditambahkan`);
+}
+
+// ==================== DUPLIKAT ====================
+function duplikatPeserta(uid) {
+  // Save current DOM values to state first
+  saveFieldsToState(uid);
+  const src = pesertaData.find(p => p.uid === uid);
+  if (!src) return;
+  // Deep copy the state object with a new uid
+  const copy = JSON.parse(JSON.stringify(src));
+  copy.uid = newUid();
+  copy.nama = src.nama ? src.nama + ' (Duplikat)' : '(Duplikat)';
+  const srcIdx = pesertaData.findIndex(p => p.uid === uid);
+  pesertaData.splice(srcIdx + 1, 0, copy);
+  reRenderAll();
+  showToast('Peserta berhasil diduplikat');
+}
+
+// ==================== MOVE ====================
+function movePeserta(uid, dir) {
+  const idx = pesertaData.findIndex(p => p.uid === uid);
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= pesertaData.length) return;
+  [pesertaData[idx], pesertaData[newIdx]] = [pesertaData[newIdx], pesertaData[idx]];
+  reRenderAll();
+}
+
+// ==================== HAPUS ====================
+function hapusPeserta(uid) {
+  if (pesertaData.length <= 1) {
+    showToast('⚠️ Minimal 1 peserta harus ada');
+    return;
+  }
+  const row = document.getElementById(`peserta-${uid}`);
+  if (row) {
+    row.classList.add('removing');
+    setTimeout(() => {
+      pesertaData = pesertaData.filter(p => p.uid !== uid);
+      reRenderAll();
+      updateSummary();
+      showToast('Peserta dihapus');
+    }, 300);
+  }
+}
+
+// ==================== RE-RENDER ALL (for reorder/delete renumbering) ====================
+function reRenderAll() {
+  // Only save DOM values for peserta that currently have DOM elements
+  pesertaData.forEach(p => {
+    if (document.getElementById(`peserta-${p.uid}`)) saveFieldsToState(p.uid);
+  });
+  const list = document.getElementById('peserta-list');
+  list.innerHTML = '';
+  pesertaData.forEach((p, i) => {
+    const div = renderPeserta(p, i + 1);
+    list.appendChild(div);
+    setTimeout(() => hitungSubtotal(p.uid), 0);
+  });
+  updateCountBadge();
+  updateSummary();
+}
+
+function saveFieldsToState(uid) {
+  const p = pesertaData.find(x => x.uid === uid);
+  if (!p) return;
+  const g = (id) => document.getElementById(id)?.value || '';
+  const gi = (id) => parseInt(document.getElementById(id)?.value) || 0;
+  p.nama        = g(`nama-${uid}`);
+  p.tgl         = g(`tgl-${uid}`);
+  p.uraian      = g(`uraian-${uid}`);
+  p.hari        = g(`hari-${uid}`) || 1;
+  p.mulai       = g(`mulai-${uid}`);
+  p.sampai      = g(`sampai-${uid}`);
+  p.nospd       = g(`nospd-${uid}`);
+  p.tglspd      = g(`tglspd-${uid}`);
+  p.akun        = g(`akun-${uid}`);
+  p.npwp        = g(`npwp-${uid}`);
+  p.harian      = gi(`harian-${uid}`);
+  p.hotel       = gi(`hotel-${uid}`);
+  p.transport   = gi(`transport-${uid}`);
+  p.useRepresentatif = document.getElementById(`rep-toggle-${uid}`)?.checked || false;
+  p.representatif = p.useRepresentatif ? gi(`representatif-${uid}`) : 0;
+}
+
+// ==================== SYNC FIELD TO STATE ====================
+function syncField(uid, field, value) {
+  const p = pesertaData.find(x => x.uid === uid);
+  if (p) p[field] = value;
+}
+
+// ==================== UPDATE DISPLAY ====================
+function updateNamaDisplay(uid) {
+  const p = pesertaData.find(x => x.uid === uid);
+  const no = pesertaData.findIndex(x => x.uid === uid) + 1;
+  const nama = document.getElementById(`nama-${uid}`)?.value;
+  const el = document.getElementById(`namaDisplay-${uid}`);
+  if (el) el.textContent = nama || `Peserta ${no}`;
+}
+
+function hitungSubtotal(uid) {
+  const h  = parseInt(document.getElementById(`harian-${uid}`)?.value) || 0;
+  const ho = parseInt(document.getElementById(`hotel-${uid}`)?.value) || 0;
+  const tr = parseInt(document.getElementById(`transport-${uid}`)?.value) || 0;
+  const repOn = document.getElementById(`rep-toggle-${uid}`)?.checked;
+  const r  = repOn ? (parseInt(document.getElementById(`representatif-${uid}`)?.value) || 0) : 0;
+  const total = h + ho + tr + r;
+  const fmt = 'Rp ' + formatAngka(total);
+  // update header badge
+  const badge = document.getElementById(`subtotalDisplay-${uid}`);
+  if (badge) badge.textContent = fmt;
+  // update body bar
+  const bar = document.getElementById(`subtotalBar-${uid}`);
+  if (bar) bar.textContent = fmt;
+  updateSummary();
+}
+
+function toggleRepresentatif(uid) {
+  const checked = document.getElementById(`rep-toggle-${uid}`).checked;
+  const field = document.getElementById(`rep-field-${uid}`);
+  field.style.display = checked ? 'block' : 'none';
+  const p = pesertaData.find(x => x.uid === uid);
+  if (p) { p.useRepresentatif = checked; if (!checked) { p.representatif = 0; } }
+  hitungSubtotal(uid);
+}
+
+function updateCountBadge() {
+  const badge = document.getElementById('peserta-count');
+  if (badge) badge.textContent = pesertaData.length;
+}
+
+// ==================== SUMMARY ====================
+function updateSummary() {
+  let totalHarian = 0, totalHotel = 0, totalTransport = 0, totalRep = 0;
+  pesertaData.forEach(p => {
+    totalHarian    += parseInt(document.getElementById(`harian-${p.uid}`)?.value) || 0;
+    totalHotel     += parseInt(document.getElementById(`hotel-${p.uid}`)?.value) || 0;
+    totalTransport += parseInt(document.getElementById(`transport-${p.uid}`)?.value) || 0;
+    const repOn = document.getElementById(`rep-toggle-${p.uid}`)?.checked;
+    totalRep += repOn ? (parseInt(document.getElementById(`representatif-${p.uid}`)?.value) || 0) : 0;
+  });
+  const grand = totalHarian + totalHotel + totalTransport + totalRep;
+  document.getElementById('sum-harian').textContent = 'Rp ' + formatAngka(totalHarian);
+  document.getElementById('sum-hotel').textContent = 'Rp ' + formatAngka(totalHotel);
+  document.getElementById('sum-transport').textContent = 'Rp ' + formatAngka(totalTransport);
+  document.getElementById('sum-representatif').textContent = 'Rp ' + formatAngka(totalRep);
+  document.getElementById('sum-total').textContent = 'Rp ' + formatAngka(grand);
+}
+
+// ==================== HELPERS ====================
+function formatAngka(n) {
+  return Number(n).toLocaleString('id-ID');
+}
+function fmtDate(str) {
+  if (!str) return '-';
+  const d = new Date(str + 'T00:00:00');
+  const bulanNama = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  return `${d.getDate()} ${bulanNama[d.getMonth()]} ${d.getFullYear()}`;
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+function resetForm() {
+  if (!confirm('Reset semua data?')) return;
+  pesertaData = [];
+  document.getElementById('peserta-list').innerHTML = '';
+  tambahPeserta();
+  showToast('Data berhasil direset');
+}
+
+// ==================== GENERATE DRPP HTML ====================
+function generateDRPP() {
+  // Save all current DOM values to state first
+  pesertaData.forEach(p => saveFieldsToState(p.uid));
+
+  const kem = document.getElementById('kementerian').value;
+  const unitOrg = document.getElementById('unit_org').value;
+  const sat = document.getElementById('satker').value;
+  const lok = document.getElementById('lokasi').value;
+  const alamat = document.getElementById('alamat').value;
+  const noDipa = document.getElementById('no_dipa').value;
+  const tglDipa = fmtDate(document.getElementById('tgl_dipa').value);
+  const kodeKeg = document.getElementById('kode_kegiatan').value;
+  const kodeOut = document.getElementById('kode_output').value;
+  const kodeOutLabel = document.getElementById('kode_output_label').value || 'EBA';
+  const tahun = document.getElementById('tahun').value;
+  const bulan = document.getElementById('bulan').value;
+  const ppkNama = document.getElementById('ppk_nama').value || '_________________________';
+  const ppkNip  = document.getElementById('ppk_nip').value || '';
+
+  // Jenis SPP checkboxes
+  const sppGup      = document.getElementById('spp_gup').checked;
+  const sppGupNihil = document.getElementById('spp_gup_nihil').checked;
+  const sppLs       = document.getElementById('spp_ls').checked;
+  function cb(checked) {
+    return checked
+      ? `<div class="cb" style="background:#888;"></div>`
+      : `<div class="cb">&nbsp;</div>`;
+  }
+
+  let rows = '';
+  let totalGrand = 0, totalHarian = 0, totalHotel = 0, totalTransport = 0, totalRep = 0;
+
+  pesertaData.forEach((p, i) => {
+    const no = i + 1;
+    const harian = parseInt(p.harian) || 0;
+    const hotel  = parseInt(p.hotel) || 0;
+    const tr     = parseInt(p.transport) || 0;
+    const rep    = parseInt(p.representatif) || 0;
+    const subtotal = harian + hotel + tr + rep;
+
+    totalHarian    += harian;
+    totalHotel     += hotel;
+    totalTransport += tr;
+    totalRep       += rep;
+    totalGrand     += subtotal;
+
+    rows += `
+    <tr>
+      <td style="border:1px solid #000;text-align:center;vertical-align:top;padding:5px 4px;font-weight:bold;">${no}</td>
+      <td style="border:1px solid #000;vertical-align:top;padding:5px 4px;font-size:8.5pt;">${fmtDate(p.tgl)}</td>
+      <td style="border:1px solid #000;vertical-align:top;padding:5px 6px;font-size:9pt;">
+        <strong>${p.nama || '-'}</strong><br>
+        ${p.uraian ? p.uraian.replace(/\n/g,'<br>') : ''}<br>
+        Selama : ${p.hari || 1} hari<br>
+        Mulai Tanggal : ${fmtDate(p.mulai)} s/d ${fmtDate(p.sampai)}<br>
+        Sesuai SPD No. ${p.nospd || '-'}<br>
+        Tanggal : ${fmtDate(p.tglspd)}<br>
+        <br>Dengan Rincian Sbb :
+        <table style="margin-top:4px;font-size:8.5pt;width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="border:1px solid #ccc;padding:2px 5px;width:140px;">Uang Harian</td>
+            <td style="border:1px solid #ccc;padding:2px 5px;text-align:right;">${formatAngka(harian)}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #ccc;padding:2px 5px;">Hotel / Akomodasi</td>
+            <td style="border:1px solid #ccc;padding:2px 5px;text-align:right;">${hotel ? formatAngka(hotel) : '-'}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #ccc;padding:2px 5px;">Transport</td>
+            <td style="border:1px solid #ccc;padding:2px 5px;text-align:right;">${tr ? formatAngka(tr) : '-'}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #ccc;padding:2px 5px;">Representatif</td>
+            <td style="border:1px solid #ccc;padding:2px 5px;text-align:right;">${rep ? formatAngka(rep) : '-'}</td>
+          </tr>
+          <tr style="background:#f9f9f9;font-weight:bold;">
+            <td style="border:1px solid #aaa;padding:3px 5px;">Jumlah</td>
+            <td style="border:1px solid #aaa;padding:3px 5px;text-align:right;">${formatAngka(subtotal)}</td>
+          </tr>
+        </table>
+      </td>
+      <td style="border:1px solid #000;text-align:center;vertical-align:top;padding:5px 4px;font-size:8.5pt;">${p.npwp || ''}</td>
+      <td style="border:1px solid #000;text-align:center;vertical-align:top;padding:5px 4px;font-size:9pt;">${p.akun || '524111'}</td>
+      <td style="border:1px solid #000;text-align:right;vertical-align:top;padding:5px 6px;font-weight:bold;">${formatAngka(subtotal)}</td>
+    </tr>`;
+  });
+
+  return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 10pt; color: #000; background: #fff; }
+  .drpp { padding: 14px 20px; }
+
+  /* JUDUL */
+  .judul { text-align:center; font-size:12pt; font-weight:bold; text-decoration:underline; margin-bottom:10px; letter-spacing:0.5px; }
+
+  /* HEADER TABLE — outer border box */
+  .header-box {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1.5px solid #000;
+    margin-bottom: 8px;
+    font-size: 9.5pt;
+  }
+  .header-box td { vertical-align: top; padding: 0; }
+
+  /* LEFT COLUMN: info instansi */
+  .col-instansi {
+    width: 38%;
+    border-right: 1px solid #000;
+    padding: 6px 8px;
+  }
+  .col-instansi table { width: 100%; border-collapse: collapse; }
+  .col-instansi table td { padding: 1.5px 3px; vertical-align: top; white-space: nowrap; }
+  .col-instansi table td:first-child { width: 14px; font-weight: bold; }
+  .col-instansi table td:nth-child(2) { width: 120px; }
+
+  /* MIDDLE COLUMN: Jenis SPP + Pagu */
+  .col-spp {
+    width: 22%;
+    border-right: 1px solid #000;
+  }
+  .spp-title {
+    background: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 6px;
+    border-bottom: 1px solid #000;
+    font-size: 9pt;
+    letter-spacing: 0.3px;
+  }
+  .spp-items { padding: 5px 10px; }
+  .spp-row { display: flex; align-items: center; gap: 7px; padding: 2.5px 0; font-size: 9pt; }
+  .cb {
+    width: 13px; height: 13px;
+    border: 1.5px solid #000;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 10pt; font-weight: bold; flex-shrink: 0;
+    line-height: 1;
+  }
+  .pagu-row {
+    border-top: 1px solid #000;
+    padding: 3px 10px;
+    font-size: 9pt;
+  }
+
+  /* RIGHT COLUMN: DIPA & Kode */
+  .col-dipa {
+    width: 40%;
+    padding: 0;
+  }
+  .dipa-table { width: 100%; border-collapse: collapse; }
+  .dipa-table tr { border-bottom: 1px solid #ddd; }
+  .dipa-table tr:last-child { border-bottom: none; }
+  .dipa-table td { padding: 2.5px 7px; vertical-align: middle; }
+  .dipa-table td:first-child { white-space: nowrap; font-weight: normal; width: 110px; }
+  .kode-highlight { background: #ffffa0; font-weight: bold; font-size: 9pt; padding: 2px 7px; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; }
+
+  /* MAIN TABLE */
+  .main-table { width:100%; border-collapse:collapse; font-size:9pt; margin-bottom:0; }
+  .main-table th { border:1px solid #000; padding:5px 6px; background:#f5f5f5; text-align:center; font-size:8.5pt; line-height:1.3; }
+  .main-table td { border:1px solid #000; padding:4px 6px; vertical-align:top; }
+  .main-table td.center { text-align:center; }
+  .main-table td.right { text-align:right; }
+
+  /* FOOTER TABLE */
+  .footer-table { width:100%; border-collapse:collapse; font-size:9.5pt; }
+  .footer-table td { border:1px solid #000; padding:4px 8px; vertical-align:middle; }
+  .footer-table td.right { text-align:right; font-weight:bold; white-space:nowrap; }
+
+  /* CATATAN */
+  .catatan { margin-top:10px; font-size:9.5pt; }
+  .catatan table td { padding: 1px 4px; }
+
+  /* TTD */
+  .ttd-wrap {
+    overflow: hidden;
+    margin-top: 8px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .ttd { float:right; text-align:center; font-size:9.5pt; line-height:1.7; }
+  .ttd-nama { font-weight:bold; text-decoration:underline; }
+
+  @page { margin: 1.2cm 1.4cm; size: A4; }
+  @media print { body { margin:0; } }
+</style>
+</head>
+<body>
+<div class="drpp">
+
+  <div class="judul">DAFTAR RINCIAN PERMINTAAN PEMBAYARAN</div>
+
+  <!-- ===== HEADER BOX ===== -->
+  <table class="header-box">
+    <tr>
+      <!-- Kolom Instansi -->
+      <td class="col-instansi">
+        <table>
+          <tr><td>1</td><td>Kementerian/Lemb.</td><td>: ${kem}</td></tr>
+          <tr><td>2</td><td>Unit Organisasi</td><td>: ${unitOrg}</td></tr>
+          <tr><td>3</td><td>Lokasi</td><td>: ${lok}</td></tr>
+          <tr><td>4</td><td>Kantor/Satker</td><td>: ${sat}</td></tr>
+          <tr><td>5</td><td>Alamat</td><td>: ${alamat}</td></tr>
+        </table>
+      </td>
+
+      <!-- Kolom Jenis SPP -->
+      <td class="col-spp">
+        <div class="spp-title">Jenis SPP</div>
+        <div class="spp-items">
+          <div class="spp-row">${cb(sppGup)} 1 &nbsp;GUP</div>
+          <div class="spp-row">${cb(sppGupNihil)} 2 &nbsp;GUP Nihil</div>
+          <div class="spp-row">${cb(sppLs)} 3 &nbsp;LS</div>
+        </div>
+        <div class="pagu-row">Pagu Output</div>
+      </td>
+
+      <!-- Kolom DIPA & Kode -->
+      <td class="col-dipa">
+        <table class="dipa-table">
+          <tr>
+            <td>6 &nbsp;DIPA &nbsp;&nbsp;Nomor</td>
+            <td>: &nbsp;${noDipa}</td>
+          </tr>
+          <tr>
+            <td style="padding-left:28px;">Tanggal</td>
+            <td>: &nbsp;${tglDipa}</td>
+          </tr>
+          <tr>
+            <td>7 &nbsp;Kode Kegiatan</td>
+            <td>: &nbsp;${kodeKeg}</td>
+          </tr>
+          <tr>
+            <td>8 &nbsp;Kode Output</td>
+            <td>: &nbsp;${kodeOutLabel}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="kode-highlight">${kodeOut}</td>
+          </tr>
+          <tr>
+            <td>Rp</td><td></td>
+          </tr>
+          <tr>
+            <td>9 &nbsp;Tahun Anggaran</td>
+            <td>: &nbsp;${tahun}</td>
+          </tr>
+          <tr>
+            <td>10 Bulan</td>
+            <td>: &nbsp;${bulan}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- ===== BUKTI PENGELUARAN LABEL ===== -->
+  <table style="width:100%;border-collapse:collapse;border:1.5px solid #000;margin-top:6px;">
+    <tr>
+      <td colspan="6" style="text-align:center;padding:4px 6px;font-size:9.5pt;border-bottom:1.5px solid #000;font-weight:bold;letter-spacing:0.5px;background:#f5f5f5;">Bukti Pengeluaran</td>
+    </tr>
+    <tr>
+      <th style="border:1px solid #000;padding:5px 6px;background:#ebebeb;font-size:8.5pt;width:32px;text-align:center;">Nomor<br>Urut</th>
+      <th style="border:1px solid #000;padding:5px 6px;background:#ebebeb;font-size:8.5pt;width:85px;text-align:center;">Tanggal<br>Nomor Bukti<br>Pembukuan</th>
+      <th style="border:1px solid #000;padding:5px 6px;background:#ebebeb;font-size:8.5pt;text-align:center;">Nama Penerima dan Keperluan</th>
+      <th style="border:1px solid #000;padding:5px 6px;background:#ebebeb;font-size:8.5pt;width:75px;text-align:center;">NPWP</th>
+      <th style="border:1px solid #000;padding:5px 6px;background:#ebebeb;font-size:8.5pt;width:55px;text-align:center;">MAK<br>(AKUN<br>6 DIGIT)</th>
+      <th style="border:1px solid #000;padding:5px 6px;background:#ebebeb;font-size:8.5pt;width:105px;text-align:center;">Jumlah Kotor<br>Yang Dibayarkan</th>
+    </tr>
+    ${rows}
+  </table>
+
+  <!-- ===== FOOTER JUMLAH + CATATAN + TTD — jangan dipotong halaman ===== -->
+  <div style="page-break-inside:avoid; break-inside:avoid;">
+  <table class="footer-table">
+    <tr>
+      <td style="width:130px;">Jumlah Lampiran :<br>.............. lembar</td>
+      <td>
+        Jumlah SPP ini<br>
+        SPM/SPP sebelum SPP ini atas beban output ini<br>
+        Jumlah s.d SPP ini atas beban output ini
+      </td>
+      <td class="right" style="width:120px;">
+        ${formatAngka(totalGrand)}<br>
+        -<br>
+        ${formatAngka(totalGrand)}
+      </td>
+    </tr>
+  </table>
+
+  <!-- ===== CATATAN & TTD ===== -->
+  <div class="ttd-wrap">
+    <div class="ttd">
+      A.n. Kuasa Pengguna Anggaran<br>
+      Pejabat Pembuat Komitmen<br>
+      <br><br><br><br>
+      <span class="ttd-nama">${ppkNama}</span><br>
+      NIP. ${ppkNip}
+    </div>
+    <div class="catatan">
+      <strong>Catatan :</strong>
+      <table style="margin-top:4px;">
+        <tr><td style="width:130px;">1. Uang Harian</td><td style="width:14px;">:</td><td>Rp &nbsp;${formatAngka(totalHarian)}</td></tr>
+        <tr><td>2. Hotel</td><td>:</td><td>Rp &nbsp;${formatAngka(totalHotel)}</td></tr>
+        <tr><td>3. Transport</td><td>:</td><td>Rp &nbsp;${formatAngka(totalTransport)}</td></tr>
+        <tr><td>4. Representatif</td><td>:</td><td>${totalRep ? 'Rp &nbsp;' + formatAngka(totalRep) : '-'}</td></tr>
+        <tr><td style="padding-top:3px;"><strong>Total</strong></td><td>:</td><td><strong>Rp &nbsp;${formatAngka(totalGrand)}</strong></td></tr>
+      </table>
+    </div>
+  </div>
+  </div>
+
+</div>
+</body>
+</html>`;
+}
+
+// ==================== PREVIEW ====================
+function renderPreview() {
+  const html = generateDRPP();
+  const iframe = document.createElement('iframe');
+  iframe.style.width = '100%';
+  iframe.style.height = '780px';
+  iframe.style.border = 'none';
+  const container = document.getElementById('preview-container');
+  container.innerHTML = '';
+  container.appendChild(iframe);
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(html);
+  iframe.contentDocument.close();
+}
+
+// ==================== PRINT ====================
+function cetakDRPP() {
+  const html = generateDRPP();
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(() => { win.print(); }, 600);
+  showToast('Dokumen DRPP siap dicetak');
+}
+</script>
+</body>
+</html>

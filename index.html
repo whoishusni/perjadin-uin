@@ -19,6 +19,23 @@
     --card-bg: #ffffff;
     --border: #d4cfc8;
     --shadow: 0 4px 24px rgba(15,31,61,0.10);
+
+    /* Warna untuk field yang bisa diedit */
+    --input-bg: var(--cream);
+    --input-border: var(--border);
+    --input-focus-border: var(--navy);
+
+    /* Warna untuk field yang dikunci (disabled) */
+    --disabled-bg: #eef0f5;
+    --disabled-border: #b8bfd0;
+    --disabled-text: #7a85a0;
+    --disabled-stripe: repeating-linear-gradient(
+      135deg,
+      transparent,
+      transparent 4px,
+      rgba(15,31,61,0.04) 4px,
+      rgba(15,31,61,0.04) 8px
+    );
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -165,8 +182,11 @@
   .col-span-2 { grid-column: span 2; }
   .col-span-3 { grid-column: span 3; }
 
-  /* ELEMEN FORMULIR */
+  /* =============================================
+     ELEMEN FORMULIR — AKTIF vs DIKUNCI
+     ============================================= */
   .field { display: flex; flex-direction: column; gap: 6px; }
+
   label {
     font-size: 0.8rem;
     font-weight: 600;
@@ -174,22 +194,92 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
-  input, select, textarea {
+
+  /* === Field AKTIF (bisa diedit) === */
+  input:not(:disabled),
+  select:not(:disabled),
+  textarea:not(:disabled) {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem;
     padding: 10px 14px;
-    border: 1.5px solid var(--border);
+    border: 1.5px solid var(--input-border);
     border-radius: 8px;
-    background: var(--cream);
+    background: #ffffff;
     color: var(--text);
     transition: all 0.2s;
     outline: none;
+    box-shadow: 0 1px 4px rgba(15,31,61,0.06);
   }
-  input:focus, select:focus, textarea:focus {
+
+  input:not(:disabled):focus,
+  select:not(:disabled):focus,
+  textarea:not(:disabled):focus {
     border-color: var(--navy);
     background: #fff;
-    box-shadow: 0 0 0 3px rgba(15,31,61,0.08);
+    box-shadow: 0 0 0 3px rgba(15,31,61,0.10), 0 1px 4px rgba(15,31,61,0.06);
   }
+
+  input:not(:disabled):hover,
+  select:not(:disabled):hover,
+  textarea:not(:disabled):hover {
+    border-color: #a0a8bc;
+  }
+
+  /* === Field DIKUNCI (disabled) — tampilan berbeda jelas === */
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 10px 14px 10px 36px; /* padding kiri lebih besar untuk ikon gembok */
+    border: 1.5px dashed var(--disabled-border);
+    border-radius: 8px;
+    background: var(--disabled-bg);
+    background-image: var(--disabled-stripe);
+    color: var(--disabled-text);
+    cursor: not-allowed;
+    outline: none;
+    opacity: 1; /* override browser default */
+    font-style: italic;
+    transition: all 0.2s;
+  }
+
+  /* Wrapper untuk field disabled agar bisa menambahkan ikon gembok */
+  .field-locked {
+    position: relative;
+  }
+  .field-locked::before {
+    content: '🔒';
+    position: absolute;
+    left: 11px;
+    /* sesuaikan posisi vertikal: label (baris) + gap + padding input */
+    bottom: 10px;
+    font-size: 0.78rem;
+    line-height: 1;
+    z-index: 1;
+    pointer-events: none;
+    filter: grayscale(30%) opacity(0.7);
+  }
+
+  /* Label untuk field dikunci — warna berbeda */
+  .field-locked > label {
+    color: #8a93aa;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .field-locked > label::after {
+    content: 'Terkunci';
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: #8a93aa;
+    padding: 1px 6px;
+    border-radius: 10px;
+    text-transform: uppercase;
+  }
+
   textarea { resize: vertical; min-height: 70px; }
 
   /* DAFTAR BARIS PESERTA */
@@ -424,6 +514,42 @@
     margin: 12px 0 10px;
   }
 
+  /* LEGENDA FIELD */
+  .field-legend {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 16px;
+    background: #f4f6fb;
+    border: 1px solid #dde2ed;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 0.8rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .legend-dot {
+    width: 28px;
+    height: 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .legend-dot.editable {
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    box-shadow: 0 1px 3px rgba(15,31,61,0.08);
+  }
+  .legend-dot.locked {
+    background: var(--disabled-bg);
+    background-image: var(--disabled-stripe);
+    border: 1.5px dashed var(--disabled-border);
+  }
+
   /* ==================== GAYA CETAK ==================== */
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -512,34 +638,47 @@
     <!-- INFORMASI DOKUMEN -->
     <div class="card">
       <div class="card-title"><span>1</span> Informasi Dokumen</div>
+
+      <!-- Legenda -->
+      <div class="field-legend">
+        <div class="legend-item">
+          <div class="legend-dot editable"></div>
+          <span>Field yang dapat diisi / diedit</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot locked"></div>
+          <span>🔒 Field terkunci (data baku instansi)</span>
+        </div>
+      </div>
+
       <div class="grid-2">
-        <div class="field">
+        <div class="field field-locked">
           <label>Kementerian/Lembaga</label>
           <input type="text" id="kementerian" value="Kementerian Agama" disabled />
         </div>
-        <div class="field">
+        <div class="field field-locked">
           <label>Unit Organisasi</label>
           <input type="text" id="unit_org" value="Ditjen Pendidikan Islam" disabled/>
         </div>
-        <div class="field">
+        <div class="field field-locked">
           <label>Kantor/Satker</label>
           <input type="text" id="satker" value="UIN Datokarama Palu" disabled/>
         </div>
-        <div class="field">
+        <div class="field field-locked">
           <label>Lokasi</label>
           <input type="text" id="lokasi" value="Sulawesi Tengah" disabled />
         </div>
-        <div class="field col-span-2">
+        <div class="field field-locked col-span-2">
           <label>Alamat</label>
           <input type="text" id="alamat" value="Jl. Diponegoro No. 23 Palu" disabled/>
         </div>
 
         <!-- DATA DIPA -->
-        <div class="field">
+        <div class="field field-locked">
           <label>Nomor SP DIPA</label>
           <input type="text" id="no_dipa" value="SP DIPA-025.04.2.307267/2026" disabled/>
         </div>
-        <div class="field">
+        <div class="field field-locked">
           <label>Tanggal DIPA</label>
           <input type="date" id="tgl_dipa" value="2025-12-01" disabled />
         </div>
@@ -582,7 +721,7 @@
         <!-- PILIHAN JENIS SPP -->
         <div class="field col-span-2">
           <label>Jenis SPP (dapat dipilih lebih dari satu)</label>
-          <div style="display:flex;gap:16px;flex-wrap:wrap;padding:12px 16px;background:var(--cream);border:1.5px solid var(--border);border-radius:8px;margin-top:2px;">
+          <div style="display:flex;gap:16px;flex-wrap:wrap;padding:12px 16px;background:#ffffff;border:1.5px solid var(--border);border-radius:8px;margin-top:2px;box-shadow:0 1px 4px rgba(15,31,61,0.06);">
             <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:0.92rem;font-weight:500;color:var(--text);cursor:pointer;">
               <input type="checkbox" id="spp_gup" style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);padding:0;border:none;background:none;" />
               <span>1 GUP</span>
@@ -599,11 +738,11 @@
         </div>
 
         <!-- DATA PEJABAT PEMBUAT KOMITMEN -->
-        <div class="field">
+        <div class="field field-locked">
           <label>Nama Pejabat Pembuat Komitmen (PPK)</label>
           <input type="text" id="ppk_nama" value="Ivan Setiadi, S.Sos., M.M" placeholder="Nama lengkap PPK" disabled/>
         </div>
-        <div class="field">
+        <div class="field field-locked">
           <label>NIP PPK</label>
           <input type="text" id="ppk_nip" value="198509092011011009" placeholder="NIP PPK" disabled/>
         </div>
@@ -706,7 +845,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // ==================== KONFIGURASI PENGUMUMAN ====================
-// Ubah nilai SHOW_ANNOUNCEMENT menjadi true untuk mengaktifkan popup pengumuman
 const SHOW_ANNOUNCEMENT = true;
 
 const ANNOUNCEMENT = {
@@ -720,19 +858,17 @@ const ANNOUNCEMENT = {
       <br>
     </div>
   `,
-  icon: 'info',              // opsi: 'success' | 'error' | 'warning' | 'info' | 'question'
+  icon: 'info',
   confirmButtonText: 'Mengerti',
   confirmButtonColor: '#0f1f3d',
 };
 // ================================================================
 
-// Setiap peserta adalah objek dengan uid unik beserta seluruh data field-nya
-let pesertaData = [];   // array berisi { uid, ...field-field data }
+let pesertaData = [];
 let uidCounter = 0;
 
 function newUid() { return ++uidCounter; }
 
-// ==================== INISIALISASI ====================
 window.onload = function() {
   updateCountBadge();
   if (SHOW_ANNOUNCEMENT) {
@@ -740,7 +876,6 @@ window.onload = function() {
   }
 };
 
-// ==================== PERGANTIAN TAB ====================
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
@@ -753,7 +888,6 @@ function switchTab(tab, el) {
   }
 }
 
-// ==================== LIPAT / BUKA PESERTA ====================
 function togglePeserta(uid) {
   const row = document.getElementById(`peserta-${uid}`);
   row.classList.toggle('collapsed');
@@ -769,7 +903,6 @@ function expandAll() {
   });
 }
 
-// ==================== RENDER SATU BARIS PESERTA ====================
 function renderPeserta(p, no) {
   const uid = p.uid;
   const div = document.createElement('div');
@@ -777,7 +910,6 @@ function renderPeserta(p, no) {
   div.id = `peserta-${uid}`;
 
   div.innerHTML = `
-    <!-- HEADER (klik untuk melipat/membuka) -->
     <div class="peserta-header" onclick="togglePeserta(${uid})">
       <div class="peserta-num" id="num-${uid}">${no}</div>
       <div class="peserta-name-display" id="namaDisplay-${uid}">${p.nama || `Peserta ${no}`}</div>
@@ -786,7 +918,6 @@ function renderPeserta(p, no) {
       <button class="btn-remove" onclick="event.stopPropagation();hapusPeserta(${uid})" title="Hapus peserta ini">×</button>
     </div>
 
-    <!-- BODY (dapat dilipat) -->
     <div class="peserta-body" id="body-${uid}">
       <div class="grid-2">
         <div class="field">
@@ -863,13 +994,11 @@ function renderPeserta(p, no) {
         </div>
       </div>
 
-      <!-- Bar subtotal biaya -->
       <div style="margin-top:14px;padding:10px 14px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
         <span style="font-size:0.8rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.06em;">Subtotal Peserta ${no}</span>
         <span id="subtotalBar-${uid}" style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;color:var(--gold);">Rp 0</span>
       </div>
 
-      <!-- Tombol duplikat dan pindah urutan -->
       <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;">
         <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);"
           onclick="duplikatPeserta(${uid})">⧉ Duplikat</button>
@@ -884,7 +1013,6 @@ function renderPeserta(p, no) {
   return div;
 }
 
-// ==================== TAMBAH PESERTA ====================
 function tambahPeserta() {
   const p = { uid: newUid(), nama:'', tgl:'', uraian:'', hari:1,
               mulai:'', sampai:'', nospd:'', tglspd:'', akun:'524111', npwp:'',
@@ -893,22 +1021,17 @@ function tambahPeserta() {
   const no = pesertaData.length;
   const div = renderPeserta(p, no);
   document.getElementById('peserta-list').appendChild(div);
-  // Hapus kelas animasi setelah selesai
   setTimeout(() => div.classList.remove('adding'), 400);
   updateCountBadge();
   updateSummary();
-  // Gulir ke elemen yang baru ditambahkan
   setTimeout(() => div.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
   showToast(`Peserta ${no} berhasil ditambahkan`);
 }
 
-// ==================== DUPLIKAT PESERTA ====================
 function duplikatPeserta(uid) {
-  // Simpan nilai dari DOM ke state terlebih dahulu
   saveFieldsToState(uid);
   const src = pesertaData.find(p => p.uid === uid);
   if (!src) return;
-  // Salin objek state secara mendalam dengan uid baru
   const copy = JSON.parse(JSON.stringify(src));
   copy.uid = newUid();
   copy.nama = src.nama ? src.nama + ' (Duplikat)' : '(Duplikat)';
@@ -918,7 +1041,6 @@ function duplikatPeserta(uid) {
   showToast('Peserta berhasil diduplikat');
 }
 
-// ==================== PINDAH URUTAN ====================
 function movePeserta(uid, dir) {
   const idx = pesertaData.findIndex(p => p.uid === uid);
   const newIdx = idx + dir;
@@ -927,7 +1049,6 @@ function movePeserta(uid, dir) {
   reRenderAll();
 }
 
-// ==================== HAPUS PESERTA ====================
 function hapusPeserta(uid) {
   if (pesertaData.length <= 1) {
     showToast('⚠️ Minimal 1 peserta harus ada');
@@ -945,9 +1066,7 @@ function hapusPeserta(uid) {
   }
 }
 
-// ==================== RENDER ULANG SEMUA (untuk penomoran ulang saat pindah/hapus) ====================
 function reRenderAll() {
-  // Simpan nilai DOM hanya untuk peserta yang saat ini memiliki elemen di DOM
   pesertaData.forEach(p => {
     if (document.getElementById(`peserta-${p.uid}`)) saveFieldsToState(p.uid);
   });
@@ -984,13 +1103,11 @@ function saveFieldsToState(uid) {
   p.representatif = p.useRepresentatif ? gi(`representatif-${uid}`) : 0;
 }
 
-// ==================== SINKRONISASI FIELD KE STATE ====================
 function syncField(uid, field, value) {
   const p = pesertaData.find(x => x.uid === uid);
   if (p) p[field] = value;
 }
 
-// ==================== PERBARUI TAMPILAN ====================
 function updateNamaDisplay(uid) {
   const p = pesertaData.find(x => x.uid === uid);
   const no = pesertaData.findIndex(x => x.uid === uid) + 1;
@@ -1007,10 +1124,8 @@ function hitungSubtotal(uid) {
   const r  = repOn ? (parseInt(document.getElementById(`representatif-${uid}`)?.value) || 0) : 0;
   const total = h + ho + tr + r;
   const fmt = 'Rp ' + formatAngka(total);
-  // perbarui badge di header peserta
   const badge = document.getElementById(`subtotalDisplay-${uid}`);
   if (badge) badge.textContent = fmt;
-  // perbarui bar subtotal di dalam body
   const bar = document.getElementById(`subtotalBar-${uid}`);
   if (bar) bar.textContent = fmt;
   updateSummary();
@@ -1030,7 +1145,6 @@ function updateCountBadge() {
   if (badge) badge.textContent = pesertaData.length;
 }
 
-// ==================== REKAPITULASI TOTAL ====================
 function updateSummary() {
   let totalHarian = 0, totalHotel = 0, totalTransport = 0, totalRep = 0;
   pesertaData.forEach(p => {
@@ -1048,7 +1162,6 @@ function updateSummary() {
   document.getElementById('sum-total').textContent = 'Rp ' + formatAngka(grand);
 }
 
-// ==================== FUNGSI PEMBANTU ====================
 function formatAngka(n) {
   return Number(n).toLocaleString('id-ID');
 }
@@ -1072,9 +1185,7 @@ function resetForm() {
   showToast('Data berhasil direset');
 }
 
-// ==================== GENERATE HTML DOKUMEN DRPP ====================
 function generateDRPP() {
-  // Simpan semua nilai DOM ke state terlebih dahulu
   pesertaData.forEach(p => saveFieldsToState(p.uid));
 
   const kem = document.getElementById('kementerian').value;
@@ -1092,7 +1203,6 @@ function generateDRPP() {
   const ppkNama = document.getElementById('ppk_nama').value || '_________________________';
   const ppkNip  = document.getElementById('ppk_nip').value || 'NIP. _________________________';
 
-  // Baca nilai checkbox Jenis SPP
   const sppGup      = document.getElementById('spp_gup').checked;
   const sppGupNihil = document.getElementById('spp_gup_nihil').checked;
   const sppLs       = document.getElementById('spp_ls').checked;
@@ -1168,103 +1278,39 @@ function generateDRPP() {
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   body { font-family: Arial, sans-serif; font-size: 10pt; color: #000; background: #fff; }
   .drpp { padding: 14px 20px; }
-
-  /* JUDUL DOKUMEN */
   .judul { text-align:center; font-size:12pt; font-weight:bold; text-decoration:underline; margin-bottom:10px; letter-spacing:0.5px; }
-
-  /* TABEL HEADER — kotak batas luar */
-  .header-box {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1.5px solid #000;
-    margin-bottom: 8px;
-    font-size: 9.5pt;
-  }
+  .header-box { width: 100%; border-collapse: collapse; border: 1.5px solid #000; margin-bottom: 8px; font-size: 9.5pt; }
   .header-box td { vertical-align: top; padding: 0; }
-
-  /* KOLOM KIRI: informasi instansi */
-  .col-instansi {
-    width: 38%;
-    border-right: 1px solid #000;
-    padding: 6px 8px;
-  }
+  .col-instansi { width: 38%; border-right: 1px solid #000; padding: 6px 8px; }
   .col-instansi table { width: 100%; border-collapse: collapse; }
   .col-instansi table td { padding: 1.5px 3px; vertical-align: top; white-space: nowrap; }
   .col-instansi table td:first-child { width: 14px; font-weight: bold; }
   .col-instansi table td:nth-child(2) { width: 120px; }
-
-  /* KOLOM TENGAH: Jenis SPP + Pagu */
-  .col-spp {
-    width: 22%;
-    border-right: 1px solid #000;
-  }
-  .spp-title {
-    background: #f0f0f0;
-    font-weight: bold;
-    text-align: center;
-    padding: 4px 6px;
-    border-bottom: 1px solid #000;
-    font-size: 9pt;
-    letter-spacing: 0.3px;
-  }
+  .col-spp { width: 22%; border-right: 1px solid #000; }
+  .spp-title { background: #f0f0f0; font-weight: bold; text-align: center; padding: 4px 6px; border-bottom: 1px solid #000; font-size: 9pt; letter-spacing: 0.3px; }
   .spp-items { padding: 5px 10px; }
   .spp-row { display: flex; align-items: center; gap: 7px; padding: 2.5px 0; font-size: 9pt; }
-  .cb {
-    width: 13px; height: 13px;
-    border: 1.5px solid #000;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 10pt; font-weight: bold; flex-shrink: 0;
-    line-height: 1;
-  }
-  .pagu-row {
-    border-top: 1px solid #000;
-    padding: 3px 10px;
-    font-size: 9pt;
-  }
-
-  /* KOLOM KANAN: DIPA & Kode */
-  .col-dipa {
-    width: 40%;
-    padding: 0;
-  }
+  .cb { width: 13px; height: 13px; border: 1.5px solid #000; display: inline-flex; align-items: center; justify-content: center; font-size: 10pt; font-weight: bold; flex-shrink: 0; line-height: 1; }
+  .pagu-row { border-top: 1px solid #000; padding: 3px 10px; font-size: 9pt; }
+  .col-dipa { width: 40%; padding: 0; }
   .dipa-table { width: 100%; border-collapse: collapse; }
   .dipa-table tr { border-bottom: 1px solid #ddd; }
   .dipa-table tr:last-child { border-bottom: none; }
   .dipa-table td { padding: 2.5px 7px; vertical-align: middle; }
   .dipa-table td:first-child { white-space: nowrap; font-weight: normal; width: 110px; }
   .kode-highlight { background: #ffffa0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-weight: bold; font-size: 9pt; padding: 2px 7px; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; }
-
-  /* TABEL UTAMA BUKTI PENGELUARAN */
   .main-table { width:100%; border-collapse:collapse; font-size:9pt; margin-bottom:0; }
   .main-table th { border:1px solid #000; padding:5px 6px; background:#f5f5f5; text-align:center; font-size:8.5pt; line-height:1.3; }
   .main-table td { border:1px solid #000; padding:4px 6px; vertical-align:top; }
-  .main-table td.center { text-align:center; }
-  .main-table td.right { text-align:right; }
-
-  /* TABEL FOOTER JUMLAH */
   .footer-table { width:100%; border-collapse:collapse; font-size:9.5pt; }
   .footer-table td { border:1px solid #000; padding:4px 8px; vertical-align:middle; }
   .footer-table td.right { text-align:right; font-weight:bold; white-space:nowrap; }
-
-  /* CATATAN RINCIAN */
   .catatan { margin-top:10px; font-size:9.5pt; }
   .catatan table td { padding: 1px 4px; }
-
-  /* KOLOM TANDA TANGAN */
-  .ttd-wrap {
-    overflow: hidden;
-    margin-top: 8px;
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
+  .ttd-wrap { overflow: hidden; margin-top: 8px; page-break-inside: avoid; break-inside: avoid; }
   .ttd { float:right; text-align:center; font-size:9.5pt; line-height:1.7; }
   .ttd-nama { font-weight:bold; text-decoration:underline; }
-
-  /* Hilangkan header & footer bawaan browser saat cetak */
-  @page {
-    margin: 0 !important;
-    size: A4;
-  }
+  @page { margin: 0 !important; size: A4; }
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { margin: 0 !important; }
@@ -1274,13 +1320,9 @@ function generateDRPP() {
 </head>
 <body>
 <div class="drpp">
-
   <div class="judul">DAFTAR RINCIAN PERMINTAAN PEMBAYARAN</div>
-
-  <!-- ===== KOTAK HEADER DOKUMEN ===== -->
   <table class="header-box">
     <tr>
-      <!-- Kolom Informasi Instansi -->
       <td class="col-instansi">
         <table>
           <tr><td>1</td><td>Kementerian/Lemb.</td><td>: ${kem}</td></tr>
@@ -1290,8 +1332,6 @@ function generateDRPP() {
           <tr><td>5</td><td>Alamat</td><td>: ${alamat}</td></tr>
         </table>
       </td>
-
-      <!-- Kolom Jenis SPP -->
       <td class="col-spp">
         <div class="spp-title">Jenis SPP</div>
         <div class="spp-items">
@@ -1301,46 +1341,20 @@ function generateDRPP() {
         </div>
         <div class="pagu-row">Pagu Output</div>
       </td>
-
-      <!-- Kolom DIPA & Kode -->
       <td class="col-dipa">
         <table class="dipa-table">
-          <tr>
-            <td>6 &nbsp;DIPA &nbsp;&nbsp;Nomor</td>
-            <td>: &nbsp;${noDipa}</td>
-          </tr>
-          <tr>
-            <td style="padding-left:28px;">Tanggal</td>
-            <td>: &nbsp;${tglDipa}</td>
-          </tr>
-          <tr>
-            <td>7 &nbsp;Kode Kegiatan</td>
-            <td>: &nbsp;${kodeKeg}</td>
-          </tr>
-          <tr>
-            <td>8 &nbsp;Kode Output</td>
-            <td>: &nbsp;${kodeOutLabel}</td>
-          </tr>
-          <tr>
-            <td colspan="2" class="kode-highlight">${kodeOut}</td>
-          </tr>
-          <tr>
-            <td>Rp</td><td></td>
-          </tr>
-          <tr>
-            <td>9 &nbsp;Tahun Anggaran</td>
-            <td>: &nbsp;${tahun}</td>
-          </tr>
-          <tr>
-            <td>10 Bulan</td>
-            <td>: &nbsp;${bulan}</td>
-          </tr>
+          <tr><td>6 &nbsp;DIPA &nbsp;&nbsp;Nomor</td><td>: &nbsp;${noDipa}</td></tr>
+          <tr><td style="padding-left:28px;">Tanggal</td><td>: &nbsp;${tglDipa}</td></tr>
+          <tr><td>7 &nbsp;Kode Kegiatan</td><td>: &nbsp;${kodeKeg}</td></tr>
+          <tr><td>8 &nbsp;Kode Output</td><td>: &nbsp;${kodeOutLabel}</td></tr>
+          <tr><td colspan="2" class="kode-highlight">${kodeOut}</td></tr>
+          <tr><td>Rp</td><td></td></tr>
+          <tr><td>9 &nbsp;Tahun Anggaran</td><td>: &nbsp;${tahun}</td></tr>
+          <tr><td>10 Bulan</td><td>: &nbsp;${bulan}</td></tr>
         </table>
       </td>
     </tr>
   </table>
-
-  <!-- ===== LABEL TABEL BUKTI PENGELUARAN ===== -->
   <table style="width:100%;border-collapse:collapse;border:1.5px solid #000;margin-top:6px;">
     <tr>
       <td colspan="6" style="text-align:center;padding:4px 6px;font-size:9.5pt;border-bottom:1.5px solid #000;font-weight:bold;letter-spacing:0.5px;background:#f5f5f5;">Bukti Pengeluaran</td>
@@ -1355,8 +1369,6 @@ function generateDRPP() {
     </tr>
     ${rows}
   </table>
-
-  <!-- ===== FOOTER JUMLAH + CATATAN + TANDA TANGAN — jangan dipotong halaman ===== -->
   <div style="page-break-inside:avoid; break-inside:avoid;">
   <table class="footer-table">
     <tr>
@@ -1373,8 +1385,6 @@ function generateDRPP() {
       </td>
     </tr>
   </table>
-
-  <!-- ===== CATATAN & TANDA TANGAN ===== -->
   <div class="ttd-wrap">
     <div class="ttd">
       A.n. Kuasa Pengguna Anggaran<br>
@@ -1395,16 +1405,12 @@ function generateDRPP() {
     </div>
   </div>
   </div>
-
 </div>
 </body>
 </html>`;
 }
 
-// ==================== UNDUH TEMPLATE & UPLOAD CSV ====================
 function downloadTemplateXLSM() {
-  // Buat template CSV dengan delimiter titik koma (;)
-  // (File XLSM tersedia sebagai unduhan terpisah)
   const header = 'Nama;Uraian;Lama_Perjalanan;Mulai_Tanggal;Sampai_Tanggal;Nomor_SP2d;Akun;Uang_Harian;Hotel;Transport;NPWP';
   const emptyRows = Array(10).fill(';;;;;;524111;;;;').join('\n');
   const csv = header + '\n' + emptyRows;
@@ -1433,17 +1439,15 @@ function handleCSVUpload(event) {
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
-      const text = e.target.result.replace(/^\uFEFF/, ''); // hapus BOM jika ada
+      const text = e.target.result.replace(/^\uFEFF/, '');
       const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       if (lines.length < 2) {
         showToast('⚠️ CSV kosong atau hanya berisi header');
         return;
       }
 
-      // Baca header kolom (tidak peka huruf besar/kecil, hapus spasi)
       const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase().replace(/\s+/g,'_'));
 
-      // Pencari indeks kolom (pencocokan fleksibel)
       function colIdx(keys) {
         for (const k of keys) {
           const idx = headers.findIndex(h => h.includes(k));
@@ -1475,13 +1479,10 @@ function handleCSVUpload(event) {
         const nama = get(iNama);
         if (!nama) { gagal++; continue; }
 
-        // Format tanggal otomatis: mendukung DD/MM/YYYY, YYYY-MM-DD, atau DD-MM-YYYY
         const parseDate = (s) => {
           if (!s) return '';
           s = s.trim();
-          // Sudah format ISO
           if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-          // DD/MM/YYYY atau DD-MM-YYYY
           const m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
           if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
           return '';
@@ -1490,13 +1491,13 @@ function handleCSVUpload(event) {
         const p = {
           uid: newUid(),
           nama:      nama,
-          tgl:       parseDate(get(iMulai)),   // Tanggal bukti = tanggal mulai secara default
+          tgl:       parseDate(get(iMulai)),
           uraian:    get(iUraian),
           hari:      parseInt(get(iHari)) || 1,
           mulai:     parseDate(get(iMulai)),
           sampai:    parseDate(get(iSampai)),
           nospd:     get(iNoSpd),
-          tglspd:    parseDate(get(iMulai)),   // Default: tanggal SPD mengikuti tanggal mulai
+          tglspd:    parseDate(get(iMulai)),
           akun:      get(iAkun) || '524111',
           npwp:      get(iNpwp) || '',
           harian:    parseInt(get(iHarian)) || 0,
@@ -1515,13 +1516,11 @@ function handleCSVUpload(event) {
     } catch(err) {
       showToast('❌ Gagal membaca CSV: ' + err.message);
     }
-    event.target.value = ''; // kosongkan input agar file yang sama bisa dipilih lagi
+    event.target.value = '';
   };
   reader.readAsText(file, 'UTF-8');
 }
 
-// Parser baris CSV yang andal — delimiter: titik koma (;)
-// Mendukung field yang dikutip (berisi titik koma di dalamnya)
 function parseCSVLine(line) {
   const result = [];
   let cur = '';
@@ -1542,7 +1541,6 @@ function parseCSVLine(line) {
   return result;
 }
 
-// ==================== PRATINJAU DRPP ====================
 function renderPreview() {
   const html = generateDRPP();
   const iframe = document.createElement('iframe');
@@ -1557,7 +1555,6 @@ function renderPreview() {
   iframe.contentDocument.close();
 }
 
-// ==================== CETAK DRPP ====================
 function cetakDRPP() {
   const html = generateDRPP();
   const win = window.open('', '_blank');

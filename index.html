@@ -28,7 +28,7 @@
     min-height: 100vh;
   }
 
-  /* HEADER */
+  /* HEADER — navigasi atas */
   header {
     background: var(--navy);
     padding: 0;
@@ -97,10 +97,10 @@
   }
   .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 
-  /* MAIN */
+  /* AREA UTAMA */
   .main { max-width: 1200px; margin: 0 auto; padding: 32px; }
 
-  /* TABS */
+  /* TAB NAVIGASI */
   .tabs {
     display: flex;
     gap: 4px;
@@ -128,7 +128,7 @@
     box-shadow: 0 2px 8px rgba(15,31,61,0.2);
   }
 
-  /* CARDS */
+  /* KARTU KONTEN */
   .card {
     background: var(--card-bg);
     border-radius: 14px;
@@ -159,13 +159,13 @@
     font-weight: 500;
   }
 
-  /* GRID */
+  /* TATA LETAK GRID */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
   .col-span-2 { grid-column: span 2; }
   .col-span-3 { grid-column: span 3; }
 
-  /* FORM */
+  /* ELEMEN FORMULIR */
   .field { display: flex; flex-direction: column; gap: 6px; }
   label {
     font-size: 0.8rem;
@@ -192,7 +192,7 @@
   }
   textarea { resize: vertical; min-height: 70px; }
 
-  /* PESERTA TABLE */
+  /* DAFTAR BARIS PESERTA */
   .peserta-list { margin-top: 8px; }
   .peserta-row {
     background: var(--cream);
@@ -219,7 +219,7 @@
     to { opacity: 0; transform: translateX(30px); max-height: 0; margin-bottom: 0; }
   }
 
-  /* PESERTA HEADER (always visible, click to collapse) */
+  /* HEADER PESERTA (selalu terlihat, klik untuk melipat) */
   .peserta-header {
     display: flex;
     align-items: center;
@@ -293,7 +293,7 @@
   }
   .btn-remove:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
 
-  /* PESERTA BODY (collapsible) */
+  /* BODY PESERTA (dapat dilipat) */
   .peserta-body {
     padding: 20px 20px 18px;
     overflow: hidden;
@@ -308,7 +308,7 @@
     padding-bottom: 0;
   }
 
-  /* Peserta count badge */
+  /* Lencana jumlah peserta */
   .peserta-count-badge {
     background: var(--gold);
     color: var(--navy);
@@ -320,7 +320,7 @@
     margin-left: 8px;
   }
 
-  /* TRANSPORT DETAILS */
+  /* GRID RINCIAN BIAYA */
   .transport-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -330,7 +330,7 @@
     border-top: 1px dashed var(--border);
   }
 
-  /* SUMMARY */
+  /* KARTU REKAPITULASI */
   .summary-card {
     background: var(--navy);
     border-radius: 14px;
@@ -385,7 +385,7 @@
     color: var(--gold);
   }
 
-  /* ADD BUTTON */
+  /* TOMBOL TAMBAH PESERTA */
   .btn-add {
     width: 100%;
     padding: 14px;
@@ -410,7 +410,7 @@
     background: rgba(15,31,61,0.03);
   }
 
-  /* SEPARATOR LABEL */
+  /* LABEL PEMISAH SEKSI */
   .section-label {
     font-size: 0.75rem;
     font-weight: 600;
@@ -424,7 +424,7 @@
     margin: 12px 0 10px;
   }
 
-  /* ==================== PRINT STYLES ==================== */
+  /* ==================== GAYA CETAK ==================== */
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { background: #fff; font-family: Arial, sans-serif; font-size: 10pt; }
@@ -433,10 +433,10 @@
     @page { margin: 1.5cm 1.5cm; size: A4; }
   }
 
-  /* PRINT PREVIEW */
+  /* PRATINJAU CETAK */
   .print-section { display: none; }
 
-  /* MODAL */
+  /* MODAL KONFIRMASI */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(15,31,61,0.6);
@@ -464,7 +464,7 @@
   .modal p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
   .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
 
-  /* TOAST */
+  /* NOTIFIKASI TOAST */
   .toast {
     position: fixed;
     bottom: 28px; right: 28px;
@@ -506,10 +506,10 @@
     <button class="tab" onclick="switchTab('preview', this)">👁️ Preview DRPP</button>
   </div>
 
-  <!-- ====== TAB INPUT ====== -->
+  <!-- ====== TAB INPUT DATA ====== -->
   <div id="tab-input" class="app-section">
 
-    <!-- HEADER INFO -->
+    <!-- INFORMASI DOKUMEN -->
     <div class="card">
       <div class="card-title"><span>1</span> Informasi Dokumen</div>
       <div class="grid-2">
@@ -534,7 +534,7 @@
           <input type="text" id="alamat" value="Jl. Diponegoro No. 23 Palu" disabled/>
         </div>
 
-        <!-- DIPA -->
+        <!-- DATA DIPA -->
         <div class="field">
           <label>Nomor SP DIPA</label>
           <input type="text" id="no_dipa" value="SP DIPA-025.04.2.307267/2026" disabled/>
@@ -544,7 +544,7 @@
           <input type="date" id="tgl_dipa" value="2025-12-01" disabled />
         </div>
 
-        <!-- KODE -->
+        <!-- KODE KEGIATAN & OUTPUT -->
         <div class="field">
           <label>Kode Kegiatan</label>
           <input type="text" id="kode_kegiatan" placeholder="contoh. 2135" />
@@ -579,7 +579,7 @@
           </select>
         </div>
 
-        <!-- JENIS SPP -->
+        <!-- PILIHAN JENIS SPP -->
         <div class="field col-span-2">
           <label>Jenis SPP (dapat dipilih lebih dari satu)</label>
           <div style="display:flex;gap:16px;flex-wrap:wrap;padding:12px 16px;background:var(--cream);border:1.5px solid var(--border);border-radius:8px;margin-top:2px;">
@@ -598,7 +598,7 @@
           </div>
         </div>
 
-        <!-- PPK -->
+        <!-- DATA PEJABAT PEMBUAT KOMITMEN -->
         <div class="field">
           <label>Nama Pejabat Pembuat Komitmen (PPK)</label>
           <input type="text" id="ppk_nama" value="Ivan Setiadi, S.Sos., M.M" placeholder="Nama lengkap PPK" disabled/>
@@ -610,7 +610,7 @@
       </div>
     </div>
 
-    <!-- PESERTA -->
+    <!-- DAFTAR PESERTA -->
     <div class="card">
       <div class="card-title">
         <span>2</span> Daftar Peserta &amp; Rincian Biaya
@@ -620,11 +620,39 @@
           <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);" onclick="expandAll()">↓ Tampilkan Semua</button>
         </div>
       </div>
+      <!-- CSV Upload Area -->
+      <div id="csv-drop-area" style="
+        border: 2px dashed var(--gold);
+        border-radius: 12px;
+        background: #fffdf5;
+        padding: 18px 20px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        transition: background 0.2s;
+      ">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-weight:600;font-size:0.9rem;color:var(--navy);margin-bottom:4px;">📁 Import Peserta via CSV</div>
+          <div style="font-size:0.78rem;color:var(--muted);">Kolom: Nama, Uraian, Lama Perjalanan, Mulai Tanggal, Sampai Tanggal, Nomor SP2d, Akun — delimiter: <strong>titik koma (;)</strong></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" style="font-size:0.82rem;padding:9px 16px;background:var(--navy);color:#fff;border:none;" onclick="document.getElementById('csv-file-input').click()">
+            ⬆ Upload CSV
+          </button>
+          <button class="btn" style="font-size:0.82rem;padding:9px 16px;background:transparent;border:1.5px solid var(--gold);color:var(--navy);" onclick="downloadTemplateXLSM()">
+            ⬇ Unduh Template
+          </button>
+        </div>
+        <input type="file" id="csv-file-input" accept=".csv" style="display:none;" onchange="handleCSVUpload(event)" />
+      </div>
+
       <div class="peserta-list" id="peserta-list"></div>
       <button class="btn-add" onclick="tambahPeserta()">＋ Tambah Peserta</button>
     </div>
 
-    <!-- SUMMARY -->
+    <!-- REKAPITULASI -->
     <div class="summary-card no-print" id="summary-card">
       <div class="summary-title">📊 Rekapitulasi Total</div>
       <div class="summary-grid">
@@ -653,7 +681,7 @@
 
   </div>
 
-  <!-- ====== TAB PREVIEW ====== -->
+  <!-- ====== TAB PRATINJAU CETAK ====== -->
   <div id="tab-preview" class="app-section" style="display:none;">
     <div class="card">
       <div class="card-title"><span>👁</span> Preview Cetak DRPP</div>
@@ -663,7 +691,7 @@
   </div>
 </div>
 
-<!-- ====== PRINT SECTION ====== -->
+<!-- ====== AREA CETAK ====== -->
 <div id="print-area" style="display:none;">
 </div>
 
@@ -671,24 +699,47 @@
   <span style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">© 2026 Husni. All rights reserved.</span>
 </footer>
 
-<!-- TOAST -->
+<!-- NOTIFIKASI TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- Library SweetAlert2 untuk notifikasi popup -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// ==================== STATE ====================
-// Each peserta is an object with a unique uid and all field data
-let pesertaData = [];   // array of { uid, ...fields }
+// ==================== KONFIGURASI PENGUMUMAN ====================
+// Ubah nilai SHOW_ANNOUNCEMENT menjadi true untuk mengaktifkan popup pengumuman
+const SHOW_ANNOUNCEMENT = true;
+
+const ANNOUNCEMENT = {
+  title: '📢 Pengumuman',
+  html: `
+    <div style="text-align:left;font-size:0.93rem;line-height:1.7;">
+      <p>🔔 <strong>Informasi:</strong><br>
+      1. Terdapat Fitur Untuk Upload CSV, Untuk Template Bisa Di-Download Di Situs Ini</p>
+      <br>
+      <p style="color:#888;font-size:0.82rem;">© 2026 Husni — UIN Datokarama Palu</p>
+    </div>
+  `,
+  icon: 'info',              // opsi: 'success' | 'error' | 'warning' | 'info' | 'question'
+  confirmButtonText: 'Mengerti',
+  confirmButtonColor: '#0f1f3d',
+};
+// ================================================================
+
+// Setiap peserta adalah objek dengan uid unik beserta seluruh data field-nya
+let pesertaData = [];   // array berisi { uid, ...field-field data }
 let uidCounter = 0;
 
 function newUid() { return ++uidCounter; }
 
-// ==================== INIT ====================
+// ==================== INISIALISASI ====================
 window.onload = function() {
-  tambahPeserta();
-  tambahPeserta();
+  updateCountBadge();
+  if (SHOW_ANNOUNCEMENT) {
+    Swal.fire(ANNOUNCEMENT);
+  }
 };
 
-// ==================== TABS ====================
+// ==================== PERGANTIAN TAB ====================
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
@@ -701,7 +752,7 @@ function switchTab(tab, el) {
   }
 }
 
-// ==================== COLLAPSE / EXPAND ====================
+// ==================== LIPAT / BUKA PESERTA ====================
 function togglePeserta(uid) {
   const row = document.getElementById(`peserta-${uid}`);
   row.classList.toggle('collapsed');
@@ -717,7 +768,7 @@ function expandAll() {
   });
 }
 
-// ==================== RENDER SINGLE PESERTA ====================
+// ==================== RENDER SATU BARIS PESERTA ====================
 function renderPeserta(p, no) {
   const uid = p.uid;
   const div = document.createElement('div');
@@ -725,7 +776,7 @@ function renderPeserta(p, no) {
   div.id = `peserta-${uid}`;
 
   div.innerHTML = `
-    <!-- HEADER (clickable to collapse) -->
+    <!-- HEADER (klik untuk melipat/membuka) -->
     <div class="peserta-header" onclick="togglePeserta(${uid})">
       <div class="peserta-num" id="num-${uid}">${no}</div>
       <div class="peserta-name-display" id="namaDisplay-${uid}">${p.nama || `Peserta ${no}`}</div>
@@ -734,7 +785,7 @@ function renderPeserta(p, no) {
       <button class="btn-remove" onclick="event.stopPropagation();hapusPeserta(${uid})" title="Hapus peserta ini">×</button>
     </div>
 
-    <!-- BODY (collapsible) -->
+    <!-- BODY (dapat dilipat) -->
     <div class="peserta-body" id="body-${uid}">
       <div class="grid-2">
         <div class="field">
@@ -811,13 +862,13 @@ function renderPeserta(p, no) {
         </div>
       </div>
 
-      <!-- Subtotal bar -->
+      <!-- Bar subtotal biaya -->
       <div style="margin-top:14px;padding:10px 14px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
         <span style="font-size:0.8rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.06em;">Subtotal Peserta ${no}</span>
         <span id="subtotalBar-${uid}" style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;color:var(--gold);">Rp 0</span>
       </div>
 
-      <!-- Duplicate / move buttons -->
+      <!-- Tombol duplikat dan pindah urutan -->
       <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;">
         <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);"
           onclick="duplikatPeserta(${uid})">⧉ Duplikat</button>
@@ -841,22 +892,22 @@ function tambahPeserta() {
   const no = pesertaData.length;
   const div = renderPeserta(p, no);
   document.getElementById('peserta-list').appendChild(div);
-  // Remove animation class after done
+  // Hapus kelas animasi setelah selesai
   setTimeout(() => div.classList.remove('adding'), 400);
   updateCountBadge();
   updateSummary();
-  // Scroll into view
+  // Gulir ke elemen yang baru ditambahkan
   setTimeout(() => div.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
   showToast(`Peserta ${no} berhasil ditambahkan`);
 }
 
-// ==================== DUPLIKAT ====================
+// ==================== DUPLIKAT PESERTA ====================
 function duplikatPeserta(uid) {
-  // Save current DOM values to state first
+  // Simpan nilai dari DOM ke state terlebih dahulu
   saveFieldsToState(uid);
   const src = pesertaData.find(p => p.uid === uid);
   if (!src) return;
-  // Deep copy the state object with a new uid
+  // Salin objek state secara mendalam dengan uid baru
   const copy = JSON.parse(JSON.stringify(src));
   copy.uid = newUid();
   copy.nama = src.nama ? src.nama + ' (Duplikat)' : '(Duplikat)';
@@ -866,7 +917,7 @@ function duplikatPeserta(uid) {
   showToast('Peserta berhasil diduplikat');
 }
 
-// ==================== MOVE ====================
+// ==================== PINDAH URUTAN ====================
 function movePeserta(uid, dir) {
   const idx = pesertaData.findIndex(p => p.uid === uid);
   const newIdx = idx + dir;
@@ -875,7 +926,7 @@ function movePeserta(uid, dir) {
   reRenderAll();
 }
 
-// ==================== HAPUS ====================
+// ==================== HAPUS PESERTA ====================
 function hapusPeserta(uid) {
   if (pesertaData.length <= 1) {
     showToast('⚠️ Minimal 1 peserta harus ada');
@@ -893,9 +944,9 @@ function hapusPeserta(uid) {
   }
 }
 
-// ==================== RE-RENDER ALL (for reorder/delete renumbering) ====================
+// ==================== RENDER ULANG SEMUA (untuk penomoran ulang saat pindah/hapus) ====================
 function reRenderAll() {
-  // Only save DOM values for peserta that currently have DOM elements
+  // Simpan nilai DOM hanya untuk peserta yang saat ini memiliki elemen di DOM
   pesertaData.forEach(p => {
     if (document.getElementById(`peserta-${p.uid}`)) saveFieldsToState(p.uid);
   });
@@ -932,13 +983,13 @@ function saveFieldsToState(uid) {
   p.representatif = p.useRepresentatif ? gi(`representatif-${uid}`) : 0;
 }
 
-// ==================== SYNC FIELD TO STATE ====================
+// ==================== SINKRONISASI FIELD KE STATE ====================
 function syncField(uid, field, value) {
   const p = pesertaData.find(x => x.uid === uid);
   if (p) p[field] = value;
 }
 
-// ==================== UPDATE DISPLAY ====================
+// ==================== PERBARUI TAMPILAN ====================
 function updateNamaDisplay(uid) {
   const p = pesertaData.find(x => x.uid === uid);
   const no = pesertaData.findIndex(x => x.uid === uid) + 1;
@@ -955,10 +1006,10 @@ function hitungSubtotal(uid) {
   const r  = repOn ? (parseInt(document.getElementById(`representatif-${uid}`)?.value) || 0) : 0;
   const total = h + ho + tr + r;
   const fmt = 'Rp ' + formatAngka(total);
-  // update header badge
+  // perbarui badge di header peserta
   const badge = document.getElementById(`subtotalDisplay-${uid}`);
   if (badge) badge.textContent = fmt;
-  // update body bar
+  // perbarui bar subtotal di dalam body
   const bar = document.getElementById(`subtotalBar-${uid}`);
   if (bar) bar.textContent = fmt;
   updateSummary();
@@ -978,7 +1029,7 @@ function updateCountBadge() {
   if (badge) badge.textContent = pesertaData.length;
 }
 
-// ==================== SUMMARY ====================
+// ==================== REKAPITULASI TOTAL ====================
 function updateSummary() {
   let totalHarian = 0, totalHotel = 0, totalTransport = 0, totalRep = 0;
   pesertaData.forEach(p => {
@@ -996,7 +1047,7 @@ function updateSummary() {
   document.getElementById('sum-total').textContent = 'Rp ' + formatAngka(grand);
 }
 
-// ==================== HELPERS ====================
+// ==================== FUNGSI PEMBANTU ====================
 function formatAngka(n) {
   return Number(n).toLocaleString('id-ID');
 }
@@ -1020,9 +1071,9 @@ function resetForm() {
   showToast('Data berhasil direset');
 }
 
-// ==================== GENERATE DRPP HTML ====================
+// ==================== GENERATE HTML DOKUMEN DRPP ====================
 function generateDRPP() {
-  // Save all current DOM values to state first
+  // Simpan semua nilai DOM ke state terlebih dahulu
   pesertaData.forEach(p => saveFieldsToState(p.uid));
 
   const kem = document.getElementById('kementerian').value;
@@ -1040,13 +1091,13 @@ function generateDRPP() {
   const ppkNama = document.getElementById('ppk_nama').value || '_________________________';
   const ppkNip  = document.getElementById('ppk_nip').value || 'NIP. _________________________';
 
-  // Jenis SPP checkboxes
+  // Baca nilai checkbox Jenis SPP
   const sppGup      = document.getElementById('spp_gup').checked;
   const sppGupNihil = document.getElementById('spp_gup_nihil').checked;
   const sppLs       = document.getElementById('spp_ls').checked;
   function cb(checked) {
     return checked
-      ? `<div class="cb" style="background:#888;"></div>`
+      ? `<div class="cb" style="background:#444 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;color:#fff;font-size:9pt;line-height:13px;">&#10003;</div>`
       : `<div class="cb">&nbsp;</div>`;
   }
 
@@ -1113,14 +1164,14 @@ function generateDRPP() {
 <head>
 <meta charset="UTF-8">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   body { font-family: Arial, sans-serif; font-size: 10pt; color: #000; background: #fff; }
   .drpp { padding: 14px 20px; }
 
-  /* JUDUL */
+  /* JUDUL DOKUMEN */
   .judul { text-align:center; font-size:12pt; font-weight:bold; text-decoration:underline; margin-bottom:10px; letter-spacing:0.5px; }
 
-  /* HEADER TABLE — outer border box */
+  /* TABEL HEADER — kotak batas luar */
   .header-box {
     width: 100%;
     border-collapse: collapse;
@@ -1130,7 +1181,7 @@ function generateDRPP() {
   }
   .header-box td { vertical-align: top; padding: 0; }
 
-  /* LEFT COLUMN: info instansi */
+  /* KOLOM KIRI: informasi instansi */
   .col-instansi {
     width: 38%;
     border-right: 1px solid #000;
@@ -1141,7 +1192,7 @@ function generateDRPP() {
   .col-instansi table td:first-child { width: 14px; font-weight: bold; }
   .col-instansi table td:nth-child(2) { width: 120px; }
 
-  /* MIDDLE COLUMN: Jenis SPP + Pagu */
+  /* KOLOM TENGAH: Jenis SPP + Pagu */
   .col-spp {
     width: 22%;
     border-right: 1px solid #000;
@@ -1170,7 +1221,7 @@ function generateDRPP() {
     font-size: 9pt;
   }
 
-  /* RIGHT COLUMN: DIPA & Kode */
+  /* KOLOM KANAN: DIPA & Kode */
   .col-dipa {
     width: 40%;
     padding: 0;
@@ -1180,25 +1231,25 @@ function generateDRPP() {
   .dipa-table tr:last-child { border-bottom: none; }
   .dipa-table td { padding: 2.5px 7px; vertical-align: middle; }
   .dipa-table td:first-child { white-space: nowrap; font-weight: normal; width: 110px; }
-  .kode-highlight { background: #ffffa0; font-weight: bold; font-size: 9pt; padding: 2px 7px; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; }
+  .kode-highlight { background: #ffffa0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-weight: bold; font-size: 9pt; padding: 2px 7px; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; }
 
-  /* MAIN TABLE */
+  /* TABEL UTAMA BUKTI PENGELUARAN */
   .main-table { width:100%; border-collapse:collapse; font-size:9pt; margin-bottom:0; }
   .main-table th { border:1px solid #000; padding:5px 6px; background:#f5f5f5; text-align:center; font-size:8.5pt; line-height:1.3; }
   .main-table td { border:1px solid #000; padding:4px 6px; vertical-align:top; }
   .main-table td.center { text-align:center; }
   .main-table td.right { text-align:right; }
 
-  /* FOOTER TABLE */
+  /* TABEL FOOTER JUMLAH */
   .footer-table { width:100%; border-collapse:collapse; font-size:9.5pt; }
   .footer-table td { border:1px solid #000; padding:4px 8px; vertical-align:middle; }
   .footer-table td.right { text-align:right; font-weight:bold; white-space:nowrap; }
 
-  /* CATATAN */
+  /* CATATAN RINCIAN */
   .catatan { margin-top:10px; font-size:9.5pt; }
   .catatan table td { padding: 1px 4px; }
 
-  /* TTD */
+  /* KOLOM TANDA TANGAN */
   .ttd-wrap {
     overflow: hidden;
     margin-top: 8px;
@@ -1208,8 +1259,16 @@ function generateDRPP() {
   .ttd { float:right; text-align:center; font-size:9.5pt; line-height:1.7; }
   .ttd-nama { font-weight:bold; text-decoration:underline; }
 
-  @page { margin: 1.2cm 1.4cm; size: A4; }
-  @media print { body { margin:0; } }
+  /* Hilangkan header & footer bawaan browser saat cetak */
+  @page {
+    margin: 0 !important;
+    size: A4;
+  }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { margin: 0 !important; }
+    .drpp { padding: 1.2cm 1.4cm !important; }
+  }
 </style>
 </head>
 <body>
@@ -1217,10 +1276,10 @@ function generateDRPP() {
 
   <div class="judul">DAFTAR RINCIAN PERMINTAAN PEMBAYARAN</div>
 
-  <!-- ===== HEADER BOX ===== -->
+  <!-- ===== KOTAK HEADER DOKUMEN ===== -->
   <table class="header-box">
     <tr>
-      <!-- Kolom Instansi -->
+      <!-- Kolom Informasi Instansi -->
       <td class="col-instansi">
         <table>
           <tr><td>1</td><td>Kementerian/Lemb.</td><td>: ${kem}</td></tr>
@@ -1280,7 +1339,7 @@ function generateDRPP() {
     </tr>
   </table>
 
-  <!-- ===== BUKTI PENGELUARAN LABEL ===== -->
+  <!-- ===== LABEL TABEL BUKTI PENGELUARAN ===== -->
   <table style="width:100%;border-collapse:collapse;border:1.5px solid #000;margin-top:6px;">
     <tr>
       <td colspan="6" style="text-align:center;padding:4px 6px;font-size:9.5pt;border-bottom:1.5px solid #000;font-weight:bold;letter-spacing:0.5px;background:#f5f5f5;">Bukti Pengeluaran</td>
@@ -1296,7 +1355,7 @@ function generateDRPP() {
     ${rows}
   </table>
 
-  <!-- ===== FOOTER JUMLAH + CATATAN + TTD — jangan dipotong halaman ===== -->
+  <!-- ===== FOOTER JUMLAH + CATATAN + TANDA TANGAN — jangan dipotong halaman ===== -->
   <div style="page-break-inside:avoid; break-inside:avoid;">
   <table class="footer-table">
     <tr>
@@ -1314,7 +1373,7 @@ function generateDRPP() {
     </tr>
   </table>
 
-  <!-- ===== CATATAN & TTD ===== -->
+  <!-- ===== CATATAN & TANDA TANGAN ===== -->
   <div class="ttd-wrap">
     <div class="ttd">
       A.n. Kuasa Pengguna Anggaran<br>
@@ -1341,7 +1400,148 @@ function generateDRPP() {
 </html>`;
 }
 
-// ==================== PREVIEW ====================
+// ==================== UNDUH TEMPLATE & UPLOAD CSV ====================
+function downloadTemplateXLSM() {
+  // Buat template CSV dengan delimiter titik koma (;)
+  // (File XLSM tersedia sebagai unduhan terpisah)
+  const header = 'Nama;Uraian;Lama_Perjalanan;Mulai_Tanggal;Sampai_Tanggal;Nomor_SP2d;Akun;Uang_Harian;Hotel;Transport;NPWP';
+  const emptyRows = Array(10).fill(';;;;;;524111;;;;').join('\n');
+  const csv = header + '\n' + emptyRows;
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'template_peserta_perjadin.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('✅ Template CSV berhasil diunduh (delimiter: titik koma)');
+}
+
+function downloadTemplateCSV() { downloadTemplateXLSM(); }
+
+function handleCSVUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!file.name.endsWith('.csv')) {
+    showToast('⚠️ File harus berformat .csv');
+    event.target.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const text = e.target.result.replace(/^\uFEFF/, ''); // hapus BOM jika ada
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length < 2) {
+        showToast('⚠️ CSV kosong atau hanya berisi header');
+        return;
+      }
+
+      // Baca header kolom (tidak peka huruf besar/kecil, hapus spasi)
+      const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase().replace(/\s+/g,'_'));
+
+      // Pencari indeks kolom (pencocokan fleksibel)
+      function colIdx(keys) {
+        for (const k of keys) {
+          const idx = headers.findIndex(h => h.includes(k));
+          if (idx >= 0) return idx;
+        }
+        return -1;
+      }
+
+      const iNama    = colIdx(['nama']);
+      const iUraian  = colIdx(['uraian']);
+      const iHari    = colIdx(['lama','hari']);
+      const iMulai   = colIdx(['mulai']);
+      const iSampai  = colIdx(['sampai']);
+      const iNoSpd   = colIdx(['nomor_sp2d','sp2d','nospd','nomor_spd','no_sp']);
+      const iAkun    = colIdx(['akun']);
+      const iHarian  = colIdx(['uang_harian','harian']);
+      const iHotel   = colIdx(['hotel']);
+      const iTransport = colIdx(['transport']);
+      const iNpwp    = colIdx(['npwp']);
+
+      let berhasil = 0;
+      let gagal = 0;
+
+      for (let i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const cols = parseCSVLine(lines[i]);
+        const get  = (idx) => (idx >= 0 && idx < cols.length) ? cols[idx].trim() : '';
+
+        const nama = get(iNama);
+        if (!nama) { gagal++; continue; }
+
+        // Format tanggal otomatis: mendukung DD/MM/YYYY, YYYY-MM-DD, atau DD-MM-YYYY
+        const parseDate = (s) => {
+          if (!s) return '';
+          s = s.trim();
+          // Sudah format ISO
+          if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+          // DD/MM/YYYY atau DD-MM-YYYY
+          const m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+          if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+          return '';
+        };
+
+        const p = {
+          uid: newUid(),
+          nama:      nama,
+          tgl:       parseDate(get(iMulai)),   // Tanggal bukti = tanggal mulai secara default
+          uraian:    get(iUraian),
+          hari:      parseInt(get(iHari)) || 1,
+          mulai:     parseDate(get(iMulai)),
+          sampai:    parseDate(get(iSampai)),
+          nospd:     get(iNoSpd),
+          tglspd:    parseDate(get(iMulai)),   // Default: tanggal SPD mengikuti tanggal mulai
+          akun:      get(iAkun) || '524111',
+          npwp:      get(iNpwp) || '',
+          harian:    parseInt(get(iHarian)) || 0,
+          hotel:     parseInt(get(iHotel)) || 0,
+          transport: parseInt(get(iTransport)) || 0,
+          representatif: 0,
+          useRepresentatif: false
+        };
+
+        pesertaData.push(p);
+        berhasil++;
+      }
+
+      reRenderAll();
+      showToast(`✅ ${berhasil} peserta berhasil diimport${gagal > 0 ? `, ${gagal} baris dilewati` : ''}`);
+    } catch(err) {
+      showToast('❌ Gagal membaca CSV: ' + err.message);
+    }
+    event.target.value = ''; // kosongkan input agar file yang sama bisa dipilih lagi
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// Parser baris CSV yang andal — delimiter: titik koma (;)
+// Mendukung field yang dikutip (berisi titik koma di dalamnya)
+function parseCSVLine(line) {
+  const result = [];
+  let cur = '';
+  let inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuote && line[i+1] === '"') { cur += '"'; i++; }
+      else { inQuote = !inQuote; }
+    } else if (ch === ';' && !inQuote) {
+      result.push(cur);
+      cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
+// ==================== PRATINJAU DRPP ====================
 function renderPreview() {
   const html = generateDRPP();
   const iframe = document.createElement('iframe');
@@ -1356,7 +1556,7 @@ function renderPreview() {
   iframe.contentDocument.close();
 }
 
-// ==================== PRINT ====================
+// ==================== CETAK DRPP ====================
 function cetakDRPP() {
   const html = generateDRPP();
   const win = window.open('', '_blank');

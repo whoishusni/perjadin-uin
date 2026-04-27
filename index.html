@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aplikasi Perjadin — UIN Datokarama Palu</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root {
     --navy: #0f1f3d;
@@ -620,6 +621,17 @@
           <button class="btn" style="font-size:0.78rem;padding:6px 14px;background:transparent;border:1.5px solid var(--border);color:var(--muted);" onclick="expandAll()">↓ Tampilkan Semua</button>
         </div>
       </div>
+      <!-- IMPORT / TEMPLATE TOOLBAR -->
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;padding:14px 16px;background:var(--cream);border:1.5px solid var(--border);border-radius:10px;flex-wrap:wrap;">
+        <span style="font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;flex-shrink:0;">Import Data :</span>
+        <button class="btn" style="font-size:0.82rem;padding:8px 16px;background:var(--navy);color:var(--gold);border:none;gap:6px;" onclick="unduhTemplateExcel()">⬇ Unduh Template Excel</button>
+        <button class="btn" style="font-size:0.82rem;padding:8px 16px;background:#5b4a8a;color:#fff;border:none;gap:6px;" onclick="unduhTutorial()">📄 Tutorial Pengisian Excel</button>
+        <label class="btn" style="font-size:0.82rem;padding:8px 16px;background:#1a6b3c;color:#fff;border:none;gap:6px;cursor:pointer;">
+          📂 Upload File Excel
+          <input type="file" id="file-excel-upload" accept=".xlsx,.xls" style="display:none;" onchange="handleExcelUpload(event)" />
+        </label>
+        <span id="upload-filename" style="font-size:0.8rem;color:var(--muted);font-style:italic;"></span>
+      </div>
       <div class="peserta-list" id="peserta-list"></div>
       <button class="btn-add" onclick="tambahPeserta()">＋ Tambah Peserta</button>
     </div>
@@ -684,8 +696,8 @@ function newUid() { return ++uidCounter; }
 
 // ==================== INIT ====================
 window.onload = function() {
-  tambahPeserta();
-  tambahPeserta();
+  updateCountBadge();
+  updateSummary();
 };
 
 // ==================== TABS ====================
@@ -1016,7 +1028,8 @@ function resetForm() {
   if (!confirm('Reset semua data?')) return;
   pesertaData = [];
   document.getElementById('peserta-list').innerHTML = '';
-  tambahPeserta();
+  updateCountBadge();
+  updateSummary();
   showToast('Data berhasil direset');
 }
 
@@ -1339,6 +1352,398 @@ function generateDRPP() {
 </div>
 </body>
 </html>`;
+}
+
+// ==================== TUTORIAL TXT ====================
+function unduhTutorial() {
+  const isi = `==========================================================
+  TUTORIAL PENGISIAN TEMPLATE EXCEL — APLIKASI PERJADIN
+  DRPP — UIN Datokarama Palu
+==========================================================
+
+Tutorial ini menjelaskan cara mengisi file Template_Peserta_DRPP.xlsx
+dengan benar agar data dapat diimport ke dalam aplikasi.
+
+----------------------------------------------------------
+A. CARA MEMBUKA DAN MENGISI TEMPLATE
+----------------------------------------------------------
+
+1. Unduh template dengan klik tombol "Unduh Template Excel".
+2. Buka file Template_Peserta_DRPP.xlsx menggunakan Microsoft Excel
+   atau aplikasi spreadsheet lainnya (LibreOffice Calc, Google Sheets).
+3. Isi data mulai dari BARIS KE-2 ke bawah (baris pertama adalah
+   header/judul kolom, jangan diubah atau dihapus).
+4. Setiap baris mewakili satu peserta perjalanan dinas.
+5. Setelah selesai, simpan file dalam format .xlsx.
+6. Upload file ke aplikasi menggunakan tombol "Upload File Excel".
+
+----------------------------------------------------------
+B. PENJELASAN SETIAP KOLOM
+----------------------------------------------------------
+
+1. Nama Lengkap & Gelar
+   - Isi nama lengkap beserta gelar akademik.
+   - Contoh : Dr. Ahmad Fauzi, S.Ag., M.M
+   - Kolom ini WAJIB diisi. Baris yang kosong pada kolom ini
+     akan diabaikan saat import.
+
+2. Tanggal Bukti (DD-MM-YYYY)
+   - Tanggal pada bukti/kwitansi pembayaran.
+   - Format  : DD-MM-YYYY
+   - Contoh  : 10-02-2026  (artinya 10 Februari 2026)
+   - Pastikan menggunakan tanda hubung (-) bukan garis miring (/).
+
+3. Uraian Kegiatan
+   - Keterangan lengkap keperluan perjalanan dinas.
+   - Contoh  : Dibayar biaya perjalanan dinas ke Jakarta dalam
+               rangka mengikuti Rapat Koordinasi Nasional
+   - Boleh ditulis panjang, teks bebas.
+
+4. Lama Perjalanan (hari)
+   - Jumlah hari perjalanan dinas dalam angka bulat.
+   - Contoh  : 3
+   - Jika kosong, aplikasi akan mengisi otomatis dengan nilai 1.
+
+5. Mulai Tanggal (DD-MM-YYYY)
+   - Tanggal keberangkatan / awal perjalanan dinas.
+   - Format  : DD-MM-YYYY
+   - Contoh  : 10-02-2026
+
+6. Sampai Tanggal (DD-MM-YYYY)
+   - Tanggal kepulangan / akhir perjalanan dinas.
+   - Format  : DD-MM-YYYY
+   - Contoh  : 12-02-2026
+
+7. Nomor SPD
+   - Nomor Surat Perjalanan Dinas.
+   - Contoh  : 421/Un.24/KP.01.1/01/2026
+
+8. Tanggal SPD (DD-MM-YYYY)
+   - Tanggal terbit Surat Perjalanan Dinas.
+   - Format  : DD-MM-YYYY
+   - Contoh  : 05-01-2026
+
+9. Akun (6 digit)
+   - Kode akun MAK 6 digit sesuai DIPA.
+   - Contoh  : 524111
+   - Jika dikosongkan, aplikasi akan mengisi otomatis dengan 524111.
+
+10. NPWP (Opsional)
+    - Nomor Pokok Wajib Pajak peserta (boleh dikosongkan).
+    - Format  : 00.000.000.0-000.000
+    - Isi jika diperlukan, kosongkan jika tidak ada.
+
+11. Uang Harian (Rp)
+    - Nominal uang harian dalam Rupiah.
+    - Tulis ANGKA SAJA tanpa titik, koma, atau simbol Rp.
+    - Contoh  : 750000  (artinya Rp 750.000)
+
+12. Hotel/Akomodasi (Rp)
+    - Nominal biaya hotel atau akomodasi dalam Rupiah.
+    - Tulis angka saja. Isi 0 jika tidak ada biaya hotel.
+    - Contoh  : 500000
+
+13. Transport (Rp)
+    - Nominal biaya transportasi dalam Rupiah.
+    - Tulis angka saja. Isi 0 jika tidak ada.
+    - Contoh  : 300000
+
+14. Representatif (Rp)
+    - Nominal biaya representatif (jika ada).
+    - Tulis angka saja. Isi 0 atau kosongkan jika tidak ada.
+    - Jika diisi angka lebih dari 0, kolom representatif akan
+      otomatis aktif di aplikasi.
+    - Contoh  : 100000  atau  0
+
+----------------------------------------------------------
+C. ATURAN FORMAT TANGGAL
+----------------------------------------------------------
+
+  Semua kolom tanggal menggunakan format: DD-MM-YYYY
+
+  DD   = tanggal (2 digit, tambah angka 0 di depan jika perlu)
+  MM   = bulan  (2 digit, tambah angka 0 di depan jika perlu)
+  YYYY = tahun  (4 digit)
+
+  Contoh yang BENAR:
+    05-01-2026   → 5 Januari 2026
+    10-02-2026   → 10 Februari 2026
+    01-12-2026   → 1 Desember 2026
+
+  Contoh yang SALAH (jangan digunakan):
+    5-1-2026     → gunakan 05-01-2026
+    10/02/2026   → jangan pakai garis miring
+    2026-02-10   → jangan pakai format YYYY-MM-DD
+
+----------------------------------------------------------
+D. ATURAN PENGISIAN ANGKA / NOMINAL
+----------------------------------------------------------
+
+  - Tulis angka TANPA titik ribuan, koma, atau simbol Rp.
+  - Gunakan angka bulat (tanpa desimal).
+
+  Contoh yang BENAR:
+    750000
+    1500000
+    0
+
+  Contoh yang SALAH:
+    Rp 750.000
+    750,000
+    750000.00
+
+----------------------------------------------------------
+E. SAAT MENGUPLOAD FILE
+----------------------------------------------------------
+
+  - Klik tombol "Upload File Excel" lalu pilih file .xlsx Anda.
+  - Aplikasi akan otomatis membaca dan mengisi data peserta.
+  - Jika sudah ada data di aplikasi, akan muncul konfirmasi:
+      OK     → GANTI semua data yang ada dengan data dari Excel.
+      Batal  → TAMBAHKAN data Excel ke data yang sudah ada.
+  - Baris yang kolom "Nama" nya kosong akan diabaikan.
+
+----------------------------------------------------------
+F. TIPS & CATATAN PENTING
+----------------------------------------------------------
+
+  * Jangan mengubah atau menghapus baris header (baris pertama).
+  * Jangan menambah, menghapus, atau mengubah urutan kolom.
+  * Simpan file dalam format .xlsx (bukan .csv atau .xls lama).
+  * Satu baris = satu peserta perjalanan dinas.
+  * Kolom yang tidak wajib (NPWP, Representatif) boleh dikosongkan.
+  * Jika ada baris kosong di tengah data, baris tersebut akan
+    dilewati secara otomatis.
+
+==========================================================
+  Aplikasi Perjadin — UIN Datokarama Palu | © 2026 Husni
+==========================================================
+`;
+
+  const blob = new Blob([isi], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Tutorial_Pengisian_Excel_DRPP.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📄 Tutorial berhasil diunduh');
+}
+
+// ==================== TEMPLATE EXCEL ====================
+function unduhTemplateExcel() {
+  const labels = [
+    'Nama Lengkap & Gelar', 'Tanggal Bukti (DD-MM-YYYY)', 'Uraian Kegiatan',
+    'Lama Perjalanan (hari)', 'Mulai Tanggal (DD-MM-YYYY)', 'Sampai Tanggal (DD-MM-YYYY)',
+    'Nomor SPD', 'Tanggal SPD (DD-MM-YYYY)', 'Akun (6 digit)', 'NPWP (Opsional)',
+    'Uang Harian (Rp)', 'Hotel/Akomodasi (Rp)', 'Transport (Rp)', 'Representatif (Rp)'
+  ];
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([labels]);
+
+  // Lebar kolom
+  ws['!cols'] = labels.map((_, i) => ({ wch: i < 3 ? 40 : 22 }));
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Data Peserta');
+
+  // Sheet petunjuk
+  const petunjuk = [
+    ['PETUNJUK PENGISIAN TEMPLATE'],
+    [''],
+    ['Kolom', 'Keterangan', 'Format / Contoh'],
+    ['Nama Lengkap & Gelar', 'Nama lengkap beserta gelar', 'Dr. Nama, S.Ag., M.M'],
+    ['Tanggal Bukti', 'Tanggal bukti pembayaran', 'DD-MM-YYYY  contoh: 10-02-2026'],
+    ['Uraian Kegiatan', 'Uraian/keperluan kegiatan', 'Teks bebas'],
+    ['Lama Perjalanan (hari)', 'Lama perjalanan dalam hari', 'Angka: 1, 2, 3, dst'],
+    ['Mulai Tanggal', 'Tanggal mulai perjalanan', 'DD-MM-YYYY'],
+    ['Sampai Tanggal', 'Tanggal selesai perjalanan', 'DD-MM-YYYY'],
+    ['Nomor SPD', 'Nomor SPD', '421/Un.24/KP.01.1/01/2026'],
+    ['Tanggal SPD', 'Tanggal SPD', 'DD-MM-YYYY'],
+    ['Akun (6 digit)', 'Kode akun 6 digit', '524111'],
+    ['NPWP (Opsional)', 'Nomor NPWP (boleh kosong)', '00.000.000.0-000.000'],
+    ['Uang Harian (Rp)', 'Nominal uang harian', 'Angka tanpa titik/koma: 750000'],
+    ['Hotel/Akomodasi (Rp)', 'Nominal hotel/akomodasi', 'Angka: 500000'],
+    ['Transport (Rp)', 'Nominal transport', 'Angka: 300000'],
+    ['Representatif (Rp)', 'Nominal representatif (kosongkan/isi 0 jika tidak ada)', 'Angka: 0'],
+  ];
+  const ws2 = XLSX.utils.aoa_to_sheet(petunjuk);
+  ws2['!cols'] = [{ wch: 26 }, { wch: 40 }, { wch: 36 }];
+  XLSX.utils.book_append_sheet(wb, ws2, 'Petunjuk');
+
+  XLSX.writeFile(wb, 'Template_Peserta_DRPP.xlsx');
+  showToast('✅ Template Excel berhasil diunduh');
+}
+
+// ==================== UPLOAD EXCEL → CSV (;) → BACA DATA ====================
+function handleExcelUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const filenameEl = document.getElementById('upload-filename');
+  filenameEl.textContent = '⏳ Memproses ' + file.name + '...';
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+
+      // Ambil sheet pertama
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+
+      // Konversi ke CSV dengan delimiter titik koma (;)
+      const csvSemicolon = XLSX.utils.sheet_to_csv(sheet, { FS: ';', RS: '\n' });
+
+      // Simpan CSV ke memory (simulasi "file CSV")
+      filenameEl.textContent = '✅ ' + file.name + ' → CSV (;) siap dibaca';
+
+      // Baca CSV titik koma dan isi data peserta
+      bacaCSVSemicolon(csvSemicolon, file.name);
+
+    } catch (err) {
+      filenameEl.textContent = '❌ Gagal memproses file';
+      showToast('❌ Error membaca file Excel: ' + err.message);
+    }
+    // Reset input agar file yang sama bisa di-upload ulang
+    event.target.value = '';
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function bacaCSVSemicolon(csvText, namaFile) {
+  const lines = csvText.trim().split('\n').filter(l => l.trim());
+  if (lines.length < 2) {
+    showToast('⚠️ File tidak memiliki data peserta');
+    return;
+  }
+
+  // Baris pertama = header (label/nama kolom dari template)
+  // Mapping posisi kolom berdasarkan nama header
+  const headerRow = lines[0].split(';').map(h => h.trim().replace(/"/g, '').toLowerCase());
+
+  // Mapping nama header (label bahasa Indonesia) ke field internal
+  const labelToField = {
+    'nama lengkap & gelar': 'nama',
+    'tanggal bukti (dd-mm-yyyy)': 'tgl',
+    'uraian kegiatan': 'uraian',
+    'lama perjalanan (hari)': 'hari',
+    'mulai tanggal (dd-mm-yyyy)': 'mulai',
+    'sampai tanggal (dd-mm-yyyy)': 'sampai',
+    'nomor spd': 'nospd',
+    'tanggal spd (dd-mm-yyyy)': 'tglspd',
+    'akun (6 digit)': 'akun',
+    'npwp (opsional)': 'npwp',
+    'uang harian (rp)': 'harian',
+    'hotel/akomodasi (rp)': 'hotel',
+    'transport (rp)': 'transport',
+    'representatif (rp)': 'representatif',
+    // fallback nama field langsung
+    'nama': 'nama', 'tgl': 'tgl', 'uraian': 'uraian', 'hari': 'hari',
+    'mulai': 'mulai', 'sampai': 'sampai', 'nospd': 'nospd', 'tglspd': 'tglspd',
+    'akun': 'akun', 'npwp': 'npwp', 'harian': 'harian', 'hotel': 'hotel',
+    'transport': 'transport', 'representatif': 'representatif'
+  };
+
+  // Konversi DD-MM-YYYY → YYYY-MM-DD untuk input[type=date]
+  function parseDate(str) {
+    if (!str) return '';
+    // Format DD-MM-YYYY
+    const m1 = str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+    if (m1) return `${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
+    // Sudah YYYY-MM-DD
+    const m2 = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m2) return str;
+    return '';
+  }
+
+  const colMap = {}; // field → index kolom
+  headerRow.forEach((h, i) => {
+    const field = labelToField[h];
+    if (field) colMap[field] = i;
+  });
+
+  const requiredFields = ['nama'];
+  const hasRequired = requiredFields.every(f => colMap[f] !== undefined);
+  if (!hasRequired) {
+    showToast('⚠️ Kolom "nama" tidak ditemukan di file Excel');
+    return;
+  }
+
+  const newPeserta = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = splitCSVLine(lines[i], ';');
+    const get = (field) => {
+      const idx = colMap[field];
+      return idx !== undefined ? (cols[idx] || '').replace(/"/g, '').trim() : '';
+    };
+    const nama = get('nama');
+    if (!nama) continue;
+
+    const rep = parseInt(get('representatif')) || 0;
+    newPeserta.push({
+      uid: newUid(),
+      nama: nama,
+      tgl: parseDate(get('tgl')),
+      uraian: get('uraian'),
+      hari: parseInt(get('hari')) || 1,
+      mulai: parseDate(get('mulai')),
+      sampai: parseDate(get('sampai')),
+      nospd: get('nospd'),
+      tglspd: parseDate(get('tglspd')),
+      akun: get('akun') || '524111',
+      npwp: get('npwp'),
+      harian: parseInt(get('harian')) || 0,
+      hotel: parseInt(get('hotel')) || 0,
+      transport: parseInt(get('transport')) || 0,
+      representatif: rep,
+      useRepresentatif: rep > 0
+    });
+  }
+
+  if (newPeserta.length === 0) {
+    showToast('⚠️ Tidak ada data peserta valid dalam file');
+    return;
+  }
+
+  // Konfirmasi replace atau append
+  if (pesertaData.length > 0 && (pesertaData[0].nama || pesertaData.length > 1)) {
+    if (!confirm(`Ditemukan ${newPeserta.length} peserta dari file "${namaFile}".\n\nKlik OK untuk MENGGANTI semua data yang ada.\nKlik Batal untuk MENAMBAHKAN ke data yang ada.`)) {
+      // Append mode
+      pesertaData.push(...newPeserta);
+      reRenderAll();
+      newPeserta.forEach(p => setTimeout(() => hitungSubtotal(p.uid), 0));
+      showToast(`✅ ${newPeserta.length} peserta berhasil ditambahkan dari Excel`);
+      return;
+    }
+  }
+
+  // Replace mode
+  pesertaData = newPeserta;
+  reRenderAll();
+  newPeserta.forEach(p => setTimeout(() => hitungSubtotal(p.uid), 0));
+  showToast(`✅ ${newPeserta.length} peserta berhasil diimport dari Excel`);
+}
+
+// Helper: split CSV line dengan delimiter, handle quoted fields
+function splitCSVLine(line, delim) {
+  const result = [];
+  let current = '';
+  let inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      inQuote = !inQuote;
+    } else if (ch === delim && !inQuote) {
+      result.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
 }
 
 // ==================== PREVIEW ====================
